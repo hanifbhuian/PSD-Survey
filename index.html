@@ -50,7 +50,7 @@
     function applyFinalMessage(html){
       html = html.replace(/<p id="successMessage">[\s\S]*?<\/p>/, '<p id="successMessage">' + FINAL_MESSAGE + '</p>');
       html = html.replace(/document\.getElementById\("successMessage"\)\.textContent\s*=\s*result\.message\s*\|\|\s*"[^"]*"\s*;/, 'document.getElementById("successMessage").textContent = "' + FINAL_MESSAGE + '";');
-      html = html.replace(/আগামী ২ দিনের মধ্যে আপনার বিকাশ নম্বরে সম্মানী পাঠিয়ে দেওয়া হবে।/g, "আগামী ২দিনের মধ্যে আপনার বিকাশ নাম্বারে সম্মানী পাঠিয়ে দেয়া হবে।");
+      html = html.replace(/আগামী ২ দিনের মধ্যে আপনার বিকাশ নম্বরে সম্মানী পাঠিয়ে দেওয়া হবে।/g, "আগামী ২দিনের মধ্যে আপনার বিকাশ/নগদ নাম্বারে সম্মানী পাঠিয়ে দেয়া হবে।");
       return html;
     }
     fetch(SOURCE_HTML, {cache:"no-store"})
