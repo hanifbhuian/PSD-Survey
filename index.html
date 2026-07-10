@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ</title>
   <meta name="description" content="পীরগাছা অঞ্চলের বাজার, পণ্য সংগ্রহ, যাতায়াত, খরচ এবং ঘরে বসে হোম ডেলিভারি সার্ভিসের মাধ্যমে পণ্য পাওয়ার বাস্তবতা নিয়ে একাডেমিক জরিপ।">
+  <link rel="canonical" href="https://hanifbhuian.github.io/PSD-Survey/">
 
   <meta property="og:title" content="পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ">
   <meta property="og:description" content="জরিপে অংশ নিতে প্রায় ৫–৭ মিনিট সময় লাগবে। অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা সম্মানী পাঠানো হবে।">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hanifbhuian.github.io/PSD-Survey/">
   <meta property="og:image" content="https://hanifbhuian.github.io/PSD-Survey/survey-banner.svg">
+  <meta property="og:image:secure_url" content="https://hanifbhuian.github.io/PSD-Survey/survey-banner.svg">
+  <meta property="og:image:type" content="image/svg+xml">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
@@ -36,9 +39,21 @@
     .panel h2{margin:0 0 8px;font-size:24px}.panel p{margin:8px 0;color:#334155}.list{padding-left:22px;margin:12px 0}.list li{margin:8px 0}
     .btn{display:inline-block;width:100%;text-align:center;background:var(--brand);color:#fff;text-decoration:none;border-radius:18px;padding:16px 20px;font-size:20px;font-weight:900;box-shadow:0 14px 28px rgba(15,118,110,.22)}
     .btn:hover{background:#115e59}.small{font-size:13px;color:var(--muted);margin-top:12px}.banner{width:100%;border-radius:20px;border:1px solid var(--border);background:#ecfdf5}
+    .redirect-box{background:#ecfdf5;border:1px solid #bbf7d0;border-radius:18px;padding:14px;margin:14px 0;color:#065f46;font-weight:800;text-align:center}
     footer{text-align:center;color:var(--muted);font-size:13px;padding:28px 0 36px}
     @media(max-width:760px){.grid,.main{grid-template-columns:1fr}.hero{border-bottom-left-radius:24px;border-bottom-right-radius:24px}.hero:after{font-size:36px;right:-20px}.card,.panel{border-radius:19px}.btn{font-size:18px}}
   </style>
+
+  <script>
+    const SURVEY_URL = "https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec";
+    window.addEventListener("DOMContentLoaded", function () {
+      const link = document.getElementById("surveyLink");
+      if (link) link.href = SURVEY_URL;
+      window.setTimeout(function () {
+        window.location.replace(SURVEY_URL);
+      }, 1200);
+    });
+  </script>
 </head>
 <body>
   <header class="hero">
@@ -72,14 +87,24 @@
       </div>
 
       <div class="panel">
-        <h2>জরিপে অংশ নিন</h2>
-        <p>নিচের বাটনে ক্লিক করলে survey form খুলবে। লোকেশন permission চাইলে Allow দিন।</p>
-        <a class="btn" href="https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec" target="_blank" rel="noopener">জরিপ শুরু করুন</a>
-        <p class="small">যদি বাটন কাজ না করে, link copy করে Chrome/Safari browser-এ open করুন।</p>
+        <h2>জরিপ খুলছে...</h2>
+        <div class="redirect-box">আপনাকে স্বয়ংক্রিয়ভাবে survey form-এ নিয়ে যাওয়া হচ্ছে।</div>
+        <p>যদি ২–৩ সেকেন্ডের মধ্যে survey form না খোলে, নিচের বাটনে ক্লিক করুন। লোকেশন permission চাইলে Allow দিন।</p>
+        <a id="surveyLink" class="btn" href="https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec">জরিপ শুরু করুন</a>
+        <p class="small">এই একটাই public link share করবেন: https://hanifbhuian.github.io/PSD-Survey/</p>
       </div>
     </section>
   </main>
 
-  <footer>এই landing page শুধু survey access সহজ করার জন্য তৈরি। মূল উত্তর Google Sheet-এ সংরক্ষিত হবে।</footer>
+  <noscript>
+    <div class="wrap">
+      <section class="panel">
+        JavaScript বন্ধ আছে। জরিপে অংশ নিতে এই link খুলুন:
+        <a href="https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec">জরিপ শুরু করুন</a>
+      </section>
+    </div>
+  </noscript>
+
+  <footer>এই landing page survey access সহজ করা এবং social media thumbnail দেখানোর জন্য তৈরি। মূল উত্তর Google Sheet-এ সংরক্ষিত হবে।</footer>
 </body>
 </html>
