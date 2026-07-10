@@ -3,20 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ</title>
   <meta name="description" content="পীরগাছা অঞ্চলের বাজার, পণ্য সংগ্রহ, যাতায়াত, খরচ এবং ঘরে বসে হোম ডেলিভারি সার্ভিসের মাধ্যমে পণ্য পাওয়ার বাস্তবতা নিয়ে একাডেমিক জরিপ।">
-  <link rel="canonical" href="https://hanifbhuian.github.io/PSD-Survey/">
-
   <meta property="og:title" content="পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ">
-  <meta property="og:description" content="জরিপে অংশ নিতে প্রায় ৫–৭ মিনিট সময় লাগবে। অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা সম্মানী পাঠানো হবে।">
+  <meta property="og:description" content="জগন্নাথ বিশ্ববিদ্যালয়ের স্নাতকোত্তর গবেষণার অংশ হিসেবে পীরগাছা এলাকার মানুষের মতামত সংগ্রহ।">
   <meta property="og:type" content="website">
+  <link rel="canonical" href="https://hanifbhuian.github.io/PSD-Survey/">
   <meta property="og:url" content="https://hanifbhuian.github.io/PSD-Survey/">
   <meta property="og:image" content="https://hanifbhuian.github.io/PSD-Survey/survey-banner.svg">
   <meta property="og:image:secure_url" content="https://hanifbhuian.github.io/PSD-Survey/survey-banner.svg">
   <meta property="og:image:type" content="image/svg+xml">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ">
   <meta name="twitter:description" content="জরিপে অংশ নিতে প্রায় ৫–৭ মিনিট সময় লাগবে। অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা সম্মানী পাঠানো হবে।">
@@ -24,87 +23,944 @@
   <meta name="theme-color" content="#0f766e">
 
   <style>
-    :root{--brand:#0f766e;--brand2:#16a34a;--text:#17312d;--muted:#64748b;--soft:#ecfdf5;--border:#dcebe7;--bg:#f6faf8;--card:#ffffff}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:"Noto Sans Bengali","SolaimanLipi","Hind Siliguri",Arial,sans-serif;background:linear-gradient(180deg,#f0fdfa 0%,#ffffff 70%);color:var(--text);line-height:1.7}
-    .wrap{max-width:980px;margin:0 auto;padding:0 18px}
-    .hero{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:34px 0 54px;border-bottom-left-radius:34px;border-bottom-right-radius:34px;box-shadow:0 18px 45px rgba(15,118,110,.25);position:relative;overflow:hidden}
-    .hero:after{content:"🛒 🍛 💊 📍";position:absolute;right:18px;bottom:4px;font-size:58px;opacity:.18;letter-spacing:12px;white-space:nowrap}
-    .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:7px 13px;border-radius:999px;font-weight:800;font-size:14px}
-    h1{font-size:clamp(30px,5vw,48px);line-height:1.18;margin:18px 0 12px}
-    .hero p{max-width:780px;margin:0 0 10px;font-size:17px}.meta{color:#dcfce7;font-size:14px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:24px;box-shadow:0 14px 35px rgba(15,118,110,.10);padding:20px;margin:-26px auto 22px;position:relative}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mini{padding:14px;border:1px solid #e8f3f0;background:#f8fafc;border-radius:17px}.mini strong{display:block;color:#115e59}
-    .main{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin:24px 0 46px}.panel{background:#fff;border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:0 12px 30px rgba(15,118,110,.08)}
-    .panel h2{margin:0 0 8px;font-size:24px}.panel p{margin:8px 0;color:#334155}.list{padding-left:22px;margin:12px 0}.list li{margin:8px 0}
-    .btn{display:inline-block;width:100%;text-align:center;background:var(--brand);color:#fff;text-decoration:none;border-radius:18px;padding:16px 20px;font-size:20px;font-weight:900;box-shadow:0 14px 28px rgba(15,118,110,.22)}
-    .btn:hover{background:#115e59}.small{font-size:13px;color:var(--muted);margin-top:12px}.banner{width:100%;border-radius:20px;border:1px solid var(--border);background:#ecfdf5}
-    .redirect-box{background:#ecfdf5;border:1px solid #bbf7d0;border-radius:18px;padding:14px;margin:14px 0;color:#065f46;font-weight:800;text-align:center}
-    footer{text-align:center;color:var(--muted);font-size:13px;padding:28px 0 36px}
-    @media(max-width:760px){.grid,.main{grid-template-columns:1fr}.hero{border-bottom-left-radius:24px;border-bottom-right-radius:24px}.hero:after{font-size:36px;right:-20px}.card,.panel{border-radius:19px}.btn{font-size:18px}}
-  </style>
+    :root {
+      --brand: #0f766e;
+      --brand-dark: #115e59;
+      --soft: #ecfdf5;
+      --bg: #f6faf8;
+      --text: #17312d;
+      --muted: #64748b;
+      --border: #dcebe7;
+      --danger: #b91c1c;
+      --success: #047857;
+      --card: #ffffff;
+    }
 
-  <script>
-    const SURVEY_URL = "https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec";
-    window.addEventListener("DOMContentLoaded", function () {
-      const link = document.getElementById("surveyLink");
-      if (link) link.href = SURVEY_URL;
-      window.setTimeout(function () {
-        window.location.replace(SURVEY_URL);
-      }, 1200);
-    });
-  </script>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans Bengali", "SolaimanLipi", "Hind Siliguri", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f0fdfa 0%, #f8fafc 44%, #ffffff 100%);
+      line-height: 1.65;
+    }
+
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 18px; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 8%, transparent 9%),
+        linear-gradient(135deg, #0f766e, #16a34a);
+      color: white;
+      padding: 28px 0 36px;
+      border-bottom-left-radius: 34px;
+      border-bottom-right-radius: 34px;
+      box-shadow: 0 14px 40px rgba(15,118,110,.25);
+    }
+
+    .hero::after {
+      content: "🛒 🍛 💊 📍";
+      position: absolute;
+      right: 24px;
+      bottom: 10px;
+      font-size: 54px;
+      opacity: .16;
+      letter-spacing: 12px;
+      white-space: nowrap;
+    }
+
+    .research-badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.32);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1.18; margin: 18px 0 12px; }
+    .hero p { max-width: 780px; margin: 0 0 12px; font-size: 17px; }
+    .hero .meta { color: #dcfce7; font-size: 14px; }
+
+    .intro-card, .form-card, .success-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 14px 35px rgba(15, 118, 110, .09);
+    }
+
+    .intro-card {
+      margin: -22px auto 20px;
+      position: relative;
+      padding: 18px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mini {
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 16px;
+      border: 1px solid #e8f3f0;
+      font-size: 14px;
+    }
+
+    .mini strong { display: block; color: var(--brand-dark); }
+
+    form { margin: 22px auto 44px; }
+    .section {
+      margin: 18px 0;
+      padding: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .num {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--soft);
+      color: var(--brand-dark);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .section h2 { margin: 0; font-size: 21px; line-height: 1.35; }
+    .section .hint, .hint { color: var(--muted); font-size: 14px; margin: 5px 0 0; }
+
+    .field { margin: 16px 0; }
+    label.question { display: block; font-weight: 800; margin-bottom: 7px; }
+    .required::after { content: " *"; color: var(--danger); }
+
+    input[type="text"], input[type="tel"], input[type="email"], textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 13px;
+      font-size: 16px;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    textarea { min-height: 90px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(15,118,110,.10);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .options.two { grid-template-columns: 1fr 1fr; }
+
+    .option {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    .option input { margin-top: 6px; flex: 0 0 auto; }
+    .option span { font-size: 15px; }
+
+    .location-box {
+      border: 1px dashed #8dd7cc;
+      background: #f0fdfa;
+      padding: 14px;
+      border-radius: 18px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 16px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 16px;
+      box-shadow: 0 12px 25px rgba(15,118,110,.18);
+    }
+
+    .btn.secondary {
+      background: white;
+      color: var(--brand);
+      border: 1px solid var(--brand);
+      box-shadow: none;
+    }
+
+    .btn:disabled { opacity: .62; cursor: not-allowed; }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+      position: sticky;
+      bottom: 0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      padding: 14px 0;
+      border-top: 1px solid #eef5f3;
+    }
+
+    .notice {
+      padding: 12px 14px;
+      border-radius: 16px;
+      margin: 12px 0;
+      font-size: 15px;
+    }
+
+    .notice.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .notice.success { background: #ecfdf5; color: #065f46; border: 1px solid #bbf7d0; }
+
+    .progress {
+      height: 9px;
+      background: #dff4ef;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 16px 0 0;
+    }
+
+    .progress span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #0f766e, #22c55e);
+      transition: width .2s ease;
+    }
+
+    .small { font-size: 13px; color: var(--muted); }
+    .hidden { display: none !important; }
+
+    footer {
+      padding: 28px 0 36px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      .intro-grid, .grid, .options.two { grid-template-columns: 1fr; }
+      .hero { border-bottom-left-radius: 22px; border-bottom-right-radius: 22px; }
+      .section { padding: 17px; border-radius: 18px; }
+      .actions { justify-content: stretch; }
+      .actions .btn { width: 100%; }
+      .hero::after { font-size: 36px; right: 0; }
+    }
+  </style>
 </head>
+
 <body>
   <header class="hero">
     <div class="wrap">
-      <span class="badge">🎓 একাডেমিক গবেষণা জরিপ</span>
-      <h1>পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ</h1>
-      <p>পীরগাছা উপজেলা ও পীরগাছা বাজারের আশেপাশের মানুষের নিত্যপ্রয়োজনীয় পণ্য, খাবার, স্বাস্থ্যপণ্য, যাতায়াত খরচ এবং হোম ডেলিভারি সার্ভিসের বাস্তবতা বোঝার জন্য এই জরিপটি পরিচালিত হচ্ছে।</p>
+      <span class="research-badge">🎓 একাডেমিক গবেষণা জরিপ</span>
+      <h1>পীরগাছা এলাকার বাজার, পণ্য সংগ্রহ ও ঘরে পণ্য পাওয়ার বাস্তবতা</h1>
+      <p>
+        পীরগাছা উপজেলা ও পীরগাছা বাজারের আশেপাশের মানুষের নিত্যপ্রয়োজনীয় পণ্য,
+        খাবার ও স্বাস্থ্যপণ্য সংগ্রহের বাস্তবতা বোঝার জন্য এই জরিপটি পরিচালিত হচ্ছে।
+      </p>
       <p class="meta">জগন্নাথ বিশ্ববিদ্যালয়ের স্নাতকোত্তর পর্যায়ের গবেষণা কার্যক্রমের অংশ।</p>
     </div>
   </header>
 
   <main class="wrap">
-    <section class="card">
-      <div class="grid">
-        <div class="mini"><strong>সময় লাগবে</strong> প্রায় ৫–৭ মিনিট</div>
-        <div class="mini"><strong>সম্মানী</strong> বিকাশ/নগদ নম্বরে ২০ টাকা</div>
-        <div class="mini"><strong>গোপনীয়তা</strong> তথ্য গবেষণা বিশ্লেষণে ব্যবহার হবে</div>
+    <section class="intro-card">
+      <div class="intro-grid">
+        <div class="mini"><strong>সময় লাগবে</strong> প্রায় ৫–৭ মিনিট</div>
+        <div class="mini"><strong>গোপনীয়তা</strong> তথ্য গবেষণা বিশ্লেষণে ব্যবহার হবে</div>
+        <div class="mini"><strong>সম্মানী</strong> জরিপে অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা পাঠানো হবে (১-২ দিনের মধ্যে)</div>
       </div>
+      <div class="progress" aria-label="Form progress"><span id="progressBar"></span></div>
     </section>
 
-    <section class="main">
-      <div class="panel">
-        <img class="banner" src="survey-banner.svg" alt="পীরগাছা জরিপ ব্যানার">
-        <h2>আপনার মতামত কেন গুরুত্বপূর্ণ?</h2>
-        <p>স্থানীয় মানুষের বাজারে যাওয়া, পণ্য সংগ্রহ, যাতায়াত ব্যয়, সময় এবং ঘরে পণ্য পাওয়ার সম্ভাবনা বুঝতে এই জরিপটি সহায়তা করবে।</p>
-        <ul class="list">
-          <li>মোবাইল নম্বর ও বিকাশ/নগদ নম্বর বাধ্যতামূলক।</li>
-          <li>একটি মোবাইল নম্বর দিয়ে একবারই অংশ নেওয়া যাবে।</li>
-          <li>লোকেশন তথ্য spatial analysis এবং পীরগাছা অঞ্চলের উত্তরদাতা যাচাইয়ে ব্যবহার হবে।</li>
-        </ul>
-      </div>
+    <form id="surveyForm" novalidate>
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">১</div>
+          <div>
+            <h2>পরিচিতি ও যোগাযোগ তথ্য</h2>
+            <p class="hint">মোবাইল ও বিকাশ/নগদ নম্বর বাধ্যতামূলক। একজন ব্যক্তি একটি মোবাইল নম্বর দিয়ে একবারই অংশ নিতে পারবেন।</p>
+          </div>
+        </div>
 
-      <div class="panel">
-        <h2>জরিপ খুলছে...</h2>
-        <div class="redirect-box">আপনাকে স্বয়ংক্রিয়ভাবে survey form-এ নিয়ে যাওয়া হচ্ছে।</div>
-        <p>যদি ২–৩ সেকেন্ডের মধ্যে survey form না খোলে, নিচের বাটনে ক্লিক করুন। লোকেশন permission চাইলে Allow দিন।</p>
-        <a id="surveyLink" class="btn" href="https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec">জরিপ শুরু করুন</a>
-        <p class="small">এই একটাই public link share করবেন: https://hanifbhuian.github.io/PSD-Survey/</p>
+        <!-- <div class="field">
+          <label class="question required">১. আপনি কি স্বেচ্ছায় এই জরিপে অংশ নিতে রাজি আছেন?</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="consent" value="হ্যাঁ" required><span>হ্যাঁ</span></label>
+            <label class="option"><input type="radio" name="consent" value="না"><span>না</span></label>
+          </div>
+        </div> -->
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required" for="phone">২. আপনার মোবাইল নম্বর</label>
+            <input id="phone" name="phone" type="tel" inputmode="numeric" placeholder="017XXXXXXXX" required pattern="^01[3-9][0-9]{8}$">
+            <p class="hint">যাচাই ও duplicate response বন্ধ করার জন্য নেওয়া হচ্ছে।</p>
+          </div>
+
+          <div class="field">
+            <label class="question required" for="bkash">৩. আপনার বিকাশ/নগদ নম্বর</label>
+            <input id="bkash" name="bkash" type="tel" inputmode="numeric" placeholder="017XXXXXXXX" required pattern="^01[3-9][0-9]{8}$">
+            <p class="hint">সম্মানী পাঠানোর জন্য প্রয়োজন।</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question" for="email">৪. Email ID — ঐচ্ছিক</label>
+          <input id="email" name="email" type="email" placeholder="example@email.com">
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">২</div>
+          <div>
+            <h2>উত্তরদাতার সাধারণ তথ্য ও অবস্থান</h2>
+            <p class="hint">লোকেশন তথ্য ভৌগোলিক/spatial বিশ্লেষণ এবং পীরগাছা অঞ্চলের উত্তরদাতা যাচাইয়ে ব্যবহার হবে।</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">৫. আপনার বয়স কত?</label>
+            <select name="age" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>১৫–২০</option><option>২১–৩০</option><option>৩১–৪০</option>
+              <option>৪১–৫০</option><option>৫১–৬০</option><option>৬০+</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">৬. আপনার পেশা কী?</label>
+            <select name="occupation" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>ছাত্র/ছাত্রী</option><option>চাকরিজীবী</option><option>ব্যবসায়ী</option>
+              <option>গৃহিণী</option><option>কৃষক</option><option>শিক্ষক</option>
+              <option>শ্রমিক/দিনমজুর</option><option>অবসরপ্রাপ্ত</option><option>অন্যান্য</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">৭. আপনি কোন এলাকায় থাকেন?</label>
+            <select name="area" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>পীরগাছা বাজার</option><option>বাজারের আশেপাশের এলাকা</option><option>অন্যান্য</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">৮. পীরগাছা বাজার থেকে আপনার অবস্থানের দূরত্ব আনুমানিক কত?</label>
+            <select name="distance" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>১ কিমির মধ্যে</option><option>১–৩ কিমি</option>
+              <option>৩–৫ কিমি</option><option>৫ কিমির বেশি</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field location-box">
+          <label class="question required">৯. আপনার বর্তমান লোকেশন শেয়ার করুন</label>
+          <p class="hint">
+            “লোকেশন যুক্ত করুন” বাটনে ক্লিক করলে আপনার ডিভাইসের বর্তমান latitude-longitude জরিপে যুক্ত হবে।
+            এটি spatial analysis এবং উত্তরদাতার পীরগাছা অঞ্চলের অবস্থান যাচাইয়ে সাহায্য করবে।
+          </p>
+          <button class="btn secondary" type="button" id="locationBtn">📍 লোকেশন যুক্ত করুন</button>
+          <div id="locationStatus" class="small" style="margin-top:10px;">লোকেশন এখনো যুক্ত করা হয়নি।</div>
+          <input type="hidden" name="locationLink" id="locationLink" required>
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+          <input type="hidden" name="locationAccuracy" id="locationAccuracy">
+          <input type="hidden" name="locationTime" id="locationTime">
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">৩</div>
+          <div><h2>বাজার ও পণ্য সংগ্রহের বর্তমান অভ্যাস</h2></div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">১০. আপনি সাধারণত কোথা থেকে নিত্যপ্রয়োজনীয় পণ্য/গ্রোসারি সংগ্রহ করেন?</label>
+            <select name="buyFrom" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>পীরগাছা বাজার</option><option>বাড়ির পাশের দোকান</option>
+              <option>নির্দিষ্ট পরিচিত দোকান</option><option>পরিবারের অন্য কেউ এনে দেয়</option><option>অন্যান্য</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">১১. আপনি সপ্তাহে কতবার বাজার/দোকানে যান?</label>
+            <select name="marketFrequency" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>প্রতিদিন</option><option>সপ্তাহে ২–৩ বার</option>
+              <option>সপ্তাহে ১ বার</option><option>মাসে কয়েকবার</option><option>প্রয়োজন হলে</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">১২. বাজার করতে সাধারণত কত সময় লাগে?</label>
+            <select name="marketTime" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>৩০ মিনিটের কম</option><option>৩০ মিনিট–১ ঘণ্টা</option>
+              <option>১–২ ঘণ্টা</option><option>২ ঘণ্টার বেশি</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">১৩. বাজারে যেতে সাধারণত কী ধরনের যাতায়াত ব্যবহার করেন?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="transport" value="হেঁটে"><span>হেঁটে</span></label>
+              <label class="option"><input type="checkbox" name="transport" value="সাইকেল"><span>সাইকেল</span></label>
+              <label class="option"><input type="checkbox" name="transport" value="রিকশা/ভ্যান"><span>রিকশা/ভ্যান</span></label>
+              <label class="option"><input type="checkbox" name="transport" value="অটোরিকশা"><span>অটোরিকশা</span></label>
+              <label class="option"><input type="checkbox" name="transport" value="মোটরসাইকেল"><span>মোটরসাইকেল</span></label>
+              <label class="option"><input type="checkbox" name="transport" value="অন্যান্য"><span>অন্যান্য</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">৪</div>
+          <div><h2>বর্তমান সমস্যা ও প্রয়োজন</h2></div>
+        </div>
+
+        <div class="field">
+          <label class="question required">১৪. বাজারে গিয়ে পণ্য সংগ্রহ করতে আপনার কী কী সমস্যা হয়?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="marketProblems" value="সময় বেশি লাগে"><span>সময় বেশি লাগে</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="যাতায়াত খরচ বেশি"><span>যাতায়াত খরচ বেশি</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="ভিড় বেশি"><span>ভিড় বেশি</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="পণ্যের দাম যাচাই করা কঠিন"><span>পণ্যের দাম যাচাই করা কঠিন</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="ভালো মানের পণ্য পাওয়া কঠিন"><span>ভালো মানের পণ্য পাওয়া কঠিন</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="বৃষ্টি/খারাপ আবহাওয়ায় সমস্যা হয়"><span>বৃষ্টি/খারাপ আবহাওয়ায় সমস্যা হয়</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="অসুস্থ/ব্যস্ত থাকলে যাওয়া কঠিন"><span>অসুস্থ/ব্যস্ত থাকলে যাওয়া কঠিন</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="ভারী বাজার বহন করতে কষ্ট হয়"><span>ভারী বাজার বহন করতে কষ্ট হয়</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="কোনো সমস্যা নেই"><span>কোনো সমস্যা নেই</span></label>
+            <label class="option"><input type="checkbox" name="marketProblems" value="অন্যান্য"><span>অন্যান্য</span></label>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">১৫. আপনি কি কখনো অন্য কাউকে দিয়ে বাজার/ওষুধ/খাবার আনিয়েছেন?</label>
+            <select name="askedOthers" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>হ্যাঁ, নিয়মিত</option><option>মাঝে মাঝে</option><option>খুব কম</option><option>কখনো না</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">১৬. নিত্যপ্রয়োজনীয় পণ্য ডেলিভারি সার্ভিসের মাধ্যমে ঘরে পৌঁছে দিলে কি সুবিধা হবে বলে মনে করেন?</label>
+            <select name="homeConvenience" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>খুব সুবিধাজনক</option><option>সুবিধাজনক</option><option>মাঝামাঝি</option>
+              <option>খুব বেশি দরকার নেই</option><option>দরকার নেই</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question required">১৭. কোন পরিস্থিতিতে ডেলিভারি সার্ভিসের মাধ্যমে ঘরে পণ্য পাওয়ার সুবিধা বেশি দরকার হতে পারে?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="needSituations" value="অসুস্থ থাকলে"><span>অসুস্থ থাকলে</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="ব্যস্ত থাকলে"><span>ব্যস্ত থাকলে</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="বৃষ্টি/খারাপ আবহাওয়ায়"><span>বৃষ্টি/খারাপ আবহাওয়ায়</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="জরুরি দরকার হলে"><span>জরুরি দরকার হলে</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="ভারী বাজার হলে"><span>ভারী বাজার হলে</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="দূরে যেতে সমস্যা হলে"><span>দূরে যেতে সমস্যা হলে</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="নিয়মিত ব্যবহার করতে পারি"><span>নিয়মিত ব্যবহার করতে পারি</span></label>
+            <label class="option"><input type="checkbox" name="needSituations" value="আগ্রহী নই"><span>আগ্রহী নই</span></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">৫</div>
+          <div><h2>কোন ধরনের পণ্য/সেবা বেশি প্রয়োজন</h2></div>
+        </div>
+
+        <div class="field">
+          <label class="question required">১৮. কোন ধরনের পণ্য বা সেবা ডেলিভারি সার্ভিসের মাধ্যমে ঘরে পেলে আপনার বেশি উপকার হবে? সর্বোচ্চ ৩টি নির্বাচন করুন।</label>
+          <div class="options two" data-max-group="usefulServices" data-max="3">
+            <label class="option"><input type="checkbox" name="usefulServices" value="গ্রোসারি/নিত্যপ্রয়োজনীয় পণ্য"><span>গ্রোসারি/নিত্যপ্রয়োজনীয় পণ্য</span></label>
+            <label class="option"><input type="checkbox" name="usefulServices" value="রেস্টুরেন্ট/হোটেলের খাবার"><span>রেস্টুরেন্ট/হোটেলের খাবার</span></label>
+            <label class="option"><input type="checkbox" name="usefulServices" value="বেসিক মেডিসিন/স্বাস্থ্যপণ্য"><span>বেসিক মেডিসিন/স্বাস্থ্যপণ্য</span></label>
+            <label class="option"><input type="checkbox" name="usefulServices" value="সবজি/কাঁচাবাজার"><span>সবজি/কাঁচাবাজার</span></label>
+            <label class="option"><input type="checkbox" name="usefulServices" value="শিশুপণ্য"><span>শিশুপণ্য</span></label>
+            <label class="option"><input type="checkbox" name="usefulServices" value="লোকাল পার্সেল/জিনিসপত্র আনা-নেওয়া"><span>লোকাল পার্সেল/জিনিসপত্র আনা-নেওয়া</span></label>
+            <label class="option"><input type="checkbox" name="usefulServices" value="অন্যান্য"><span>অন্যান্য</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question required">১৯. ডেলিভারি সার্ভিসের মাধ্যমে ঘরে বসে পণ্য পাওয়ার ক্ষেত্রে আপনার সবচেয়ে বড় প্রত্যাশা কী?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="expectations" value="সঠিক পণ্য"><span>সঠিক পণ্য</span></label>
+            <label class="option"><input type="checkbox" name="expectations" value="ভালো মান"><span>ভালো মান</span></label>
+            <label class="option"><input type="checkbox" name="expectations" value="সঠিক দাম"><span>সঠিক দাম</span></label>
+            <label class="option"><input type="checkbox" name="expectations" value="সময়মতো পৌঁছানো"><span>সময়মতো পৌঁছানো</span></label>
+            <label class="option"><input type="checkbox" name="expectations" value="রসিদ/বিল পাওয়া"><span>রসিদ/বিল পাওয়া</span></label>
+            <label class="option"><input type="checkbox" name="expectations" value="অবস্থা জানা"><span>অবস্থা জানা</span></label>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">২০. গ্রোসারি/নিত্যপ্রয়োজনীয় পণ্যের মধ্যে কোনগুলো বেশি প্রয়োজন হতে পারে?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="groceryItems" value="চাল/ডাল/আটা"><span>চাল/ডাল/আটা</span></label>
+              <label class="option"><input type="checkbox" name="groceryItems" value="তেল/মশলা"><span>তেল/মশলা</span></label>
+              <label class="option"><input type="checkbox" name="groceryItems" value="ডিম/দুধ"><span>ডিম/দুধ</span></label>
+              <label class="option"><input type="checkbox" name="groceryItems" value="সবজি"><span>সবজি</span></label>
+              <label class="option"><input type="checkbox" name="groceryItems" value="মাছ/মাংস"><span>মাছ/মাংস</span></label>
+              <label class="option"><input type="checkbox" name="groceryItems" value="অন্যান্য"><span>অন্যান্য</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question required">২১. স্বাস্থ্যপণ্য/মেডিসিনের মধ্যে কোনগুলো বেশি প্রয়োজন হতে পারে?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="healthItems" value="প্যারাসিটামল/সাধারণ ওষুধ"><span>প্যারাসিটামল/সাধারণ ওষুধ</span></label>
+              <label class="option"><input type="checkbox" name="healthItems" value="ORS/স্যালাইন"><span>ORS/স্যালাইন</span></label>
+              <label class="option"><input type="checkbox" name="healthItems" value="ব্যান্ডেজ/ফার্স্ট এইড"><span>ব্যান্ডেজ/ফার্স্ট এইড</span></label>
+              <label class="option"><input type="checkbox" name="healthItems" value="থার্মোমিটার"><span>থার্মোমিটার</span></label>
+              <label class="option"><input type="checkbox" name="healthItems" value="প্রেসক্রিপশন অনুযায়ী ওষুধ"><span>প্রেসক্রিপশন অনুযায়ী ওষুধ</span></label>
+              <label class="option"><input type="checkbox" name="healthItems" value="অন্যান্য"><span>অন্যান্য</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">৬</div>
+          <div><h2>যোগাযোগের মাধ্যম ও প্রযুক্তি ব্যবহার</h2></div>
+        </div>
+
+        <div class="field">
+          <label class="question required">২২. ডেলিভারি সার্ভিসের ক্ষেত্রে আপনি কোন মাধ্যমে পণ্য/খাবার/ওষুধের প্রয়োজন জানাতে বেশি স্বাচ্ছন্দ্যবোধ করবেন?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="communicationMethods" value="ফোন কল"><span>ফোন কল</span></label>
+            <label class="option"><input type="checkbox" name="communicationMethods" value="WhatsApp"><span>WhatsApp</span></label>
+            <label class="option"><input type="checkbox" name="communicationMethods" value="SMS"><span>SMS</span></label>
+            <label class="option"><input type="checkbox" name="communicationMethods" value="Facebook/Messenger"><span>Facebook/Messenger</span></label>
+            <label class="option"><input type="checkbox" name="communicationMethods" value="ওয়েবসাইট/ওয়েব অ্যাপ"><span>ওয়েবসাইট/ওয়েব অ্যাপ</span></label>
+            <label class="option"><input type="checkbox" name="communicationMethods" value="পরিবারের কারো সাহায্যে"><span>পরিবারের কারো সাহায্যে</span></label>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">২৩. আপনি কি স্মার্টফোন ব্যবহার করেন?</label>
+            <select name="smartphoneUse" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>হ্যাঁ, নিয়মিত</option><option>হ্যাঁ, তবে খুব বেশি না</option>
+              <option>পরিবারের কারো স্মার্টফোন ব্যবহার করি</option><option>না</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">২৪. আপনি কি ওয়েবসাইট/লিংক/অ্যাপ ব্যবহার করে তথ্য দিতে পারেন?</label>
+            <select name="webUse" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>সহজে পারি</option><option>সামান্য সাহায্য লাগবে</option>
+              <option>পরিবারের কেউ সাহায্য করলে পারব</option><option>পারি না</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question required">২৫. পণ্য/খাবার/ওষুধের অনুরোধ দেওয়ার পর ডেলিভারি কোম্পানির কাছে  কোন তথ্য জানতে চাইবেন?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="infoWanted" value="অনুরোধ গ্রহণ হয়েছে কি না"><span>অনুরোধ গ্রহণ হয়েছে কি না</span></label>
+            <label class="option"><input type="checkbox" name="infoWanted" value="মোট দাম"><span>মোট দাম</span></label>
+            <label class="option"><input type="checkbox" name="infoWanted" value="আনুমানিক পৌঁছানোর সময়"><span>আনুমানিক পৌঁছানোর সময়</span></label>
+            <label class="option"><input type="checkbox" name="infoWanted" value="বর্তমান অবস্থা"><span>বর্তমান অবস্থা</span></label>
+            <label class="option"><input type="checkbox" name="infoWanted" value="রসিদ/বিল"><span>রসিদ/বিল</span></label>
+            <label class="option"><input type="checkbox" name="infoWanted" value="প্রয়োজন নেই"><span>প্রয়োজন নেই</span></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">৭</div>
+          <div>
+            <h2>খরচ, চার্জ ও মতামত</h2>
+            <p class="hint">এখানে ডেলিভারির ক্ষেত্রে নির্দিষ্ট কোনো চার্জ উল্লেখ করা হয়নি। নিজের মতামত লিখুন।</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question required">২৬. আপনার এলাকায় ঘরে পণ্য পৌঁছে দিতে হলে যুক্তিসংগত সার্ভিস/যাতায়াত খরচ কত হওয়া উচিত বলে মনে করেন?</label>
+          <textarea name="costLocal" required></textarea>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">২৭. ১–৩ কিমি দূরত্বে আপনার মতে খরচ কত হওয়া উচিত?</label>
+            <textarea name="costOneThree" required></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question required">২৮. ৩–৫ কিমি দূরত্বে আপনার মতে খরচ কত হওয়া উচিত?</label>
+            <textarea name="costThreeFive" required></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question required">২৯. ডেলিভারির ক্ষেত্রে কোন বিষয়ের উপর সার্ভিস/যাতায়াত খরচ নির্ভর করা উচিত?</label>
+          <textarea name="costFactors" required placeholder="যেমন: দূরত্ব, পণ্যের ওজন, জরুরি অবস্থা, সময়, আবহাওয়া ইত্যাদি"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="question required">৩০. ডেলিভারি সার্ভিসের ক্ষেত্রে পেমেন্টের জন্য কোন পদ্ধতি সবচেয়ে নিরাপদ/সুবিধাজনক মনে করেন? কেন?</label>
+          <textarea name="paymentOpinion" required></textarea>
+        </div>
+      </section>
+
+      <section class="section form-card">
+        <div class="section-head">
+          <div class="num">৮</div>
+          <div><h2>আস্থা, নিরাপত্তা ও শেষ মতামত</h2></div>
+        </div>
+
+        <div class="field">
+          <label class="question required">৩১. ঘরে বসে পণ্য হাতে পাওয়ার কিংবা হোম ডেলিভারি ব্যবস্থায় আপনার প্রধান ভয় বা সন্দেহ কী হতে পারে?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="concerns" value="দাম বেশি নেওয়া"><span>দাম বেশি নেওয়া</span></label>
+            <label class="option"><input type="checkbox" name="concerns" value="ভুল পণ্য আসা"><span>ভুল পণ্য আসা</span></label>
+            <label class="option"><input type="checkbox" name="concerns" value="পণ্যের মান খারাপ হওয়া"><span>পণ্যের মান খারাপ হওয়া</span></label>
+            <label class="option"><input type="checkbox" name="concerns" value="সময়মতো না আসা"><span>সময়মতো না আসা</span></label>
+            <label class="option"><input type="checkbox" name="concerns" value="ব্যক্তিগত তথ্যের নিরাপত্তা"><span>ব্যক্তিগত তথ্যের নিরাপত্তা</span></label>
+            <label class="option"><input type="checkbox" name="concerns" value="টাকা-পেমেন্ট সংক্রান্ত সমস্যা"><span>টাকা-পেমেন্ট সংক্রান্ত সমস্যা</span></label>
+            <label class="option"><input type="checkbox" name="concerns" value="কোনো ভয় নেই"><span>কোনো ভয় নেই</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question required">৩২. কোন বিষয় থাকলে আপনি এ ধরনের ডেলিভারি ব্যবস্থার উপর বেশি বিশ্বাস করবেন?</label>
+          <div class="options two">
+            <label class="option"><input type="checkbox" name="trustFactors" value="রসিদ/বিল"><span>রসিদ/বিল</span></label>
+            <label class="option"><input type="checkbox" name="trustFactors" value="অনুরোধ/অর্ডার নম্বর"><span>অনুরোধ/অর্ডার নম্বর</span></label>
+            <label class="option"><input type="checkbox" name="trustFactors" value="ফোনে কনফার্মেশন"><span>ফোনে কনফার্মেশন</span></label>
+            <label class="option"><input type="checkbox" name="trustFactors" value="পণ্যের ছবি"><span>পণ্যের ছবি</span></label>
+            <label class="option"><input type="checkbox" name="trustFactors" value="পরিচিত দোকান/ফার্মেসি"><span>পরিচিত দোকান/ফার্মেসি</span></label>
+            <label class="option"><input type="checkbox" name="trustFactors" value="পণ্য পাওয়ার পর পেমেন্ট"><span>পণ্য পাওয়ার পর পেমেন্ট</span></label>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="question required">৩৩. হোম ডেলিভারি সার্ভিসের ক্ষেত্রে আপনি কি আপনার অর্ডারকৃত পণ্যের বর্তমান অবস্থা (স্ট্যাটাস) জানতে চাইবেন?</label>
+            <select name="statusUpdate" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>হ্যাঁ</option><option>প্রয়োজন হলে</option><option>দরকার নেই</option><option>শুধু ফোন কল পেলেই হবে</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="question required">৩৪. ভবিষ্যতে এ ধরনের হোমডেলিভারি সুবিধা ব্যবহার করতে আগ্রহী হবেন?</label>
+            <select name="futureUse" required>
+              <option value="">নির্বাচন করুন</option>
+              <option>নিয়মিত ব্যবহার করতে পারি</option><option>মাঝে মাঝে ব্যবহার করতে পারি</option>
+              <option>জরুরি প্রয়োজনে ব্যবহার করতে পারি</option><option>নিশ্চিত নই</option><option>ব্যবহার করব না</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="question">৩৫. আপনার কোনো বিশেষ পরামর্শ বা মতামত থাকলে লিখুন।</label>
+          <textarea name="suggestions"></textarea>
+        </div>
+      </section>
+
+      <div id="messageBox" class="notice hidden"></div>
+
+      <div class="actions">
+        <button id="submitBtn" class="btn" type="submit">জরিপ জমা দিন</button>
       </div>
+    </form>
+
+    <section id="successCard" class="success-card section hidden">
+      <h2>ধন্যবাদ!</h2>
+      <p id="successMessage">আপনার উত্তর সফলভাবে জমা হয়েছে।</p>
     </section>
   </main>
 
-  <noscript>
-    <div class="wrap">
-      <section class="panel">
-        JavaScript বন্ধ আছে। জরিপে অংশ নিতে এই link খুলুন:
-        <a href="https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec">জরিপ শুরু করুন</a>
-      </section>
-    </div>
-  </noscript>
+  <footer>
+    এই জরিপটি একাডেমিক গবেষণা ও স্থানীয় বাস্তবতা বিশ্লেষণের জন্য ব্যবহৃত হবে।
+  </footer>
 
-  <footer>এই landing page survey access সহজ করা এবং social media thumbnail দেখানোর জন্য তৈরি। মূল উত্তর Google Sheet-এ সংরক্ষিত হবে।</footer>
+  <script>
+    const SURVEY_API_URL = "https://script.google.com/macros/s/AKfycbx7Y-qX1pDmG1__znxMPTWQYVTKoYuO_aoPZrZM0J9Y7-yVtGly5OHTsdzT2Gtvnxx3/exec";
+    const form = document.getElementById("surveyForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const messageBox = document.getElementById("messageBox");
+    const successCard = document.getElementById("successCard");
+    const progressBar = document.getElementById("progressBar");
+
+    function showMessage(text, type = "error") {
+      messageBox.textContent = text;
+      messageBox.className = "notice " + type;
+      messageBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function hideMessage() {
+      messageBox.className = "notice hidden";
+      messageBox.textContent = "";
+    }
+
+    function updateProgress() {
+      const requiredFields = [...form.querySelectorAll("[required]")];
+      const completed = requiredFields.filter(el => {
+        if (el.type === "radio") return form.querySelector(`input[name="${el.name}"]:checked`);
+        if (el.type === "checkbox") return form.querySelectorAll(`input[name="${el.name}"]:checked`).length > 0;
+        return String(el.value || "").trim();
+      }).length;
+      const percent = Math.min(100, Math.round((completed / requiredFields.length) * 100));
+      progressBar.style.width = percent + "%";
+    }
+
+    form.addEventListener("input", updateProgress);
+    form.addEventListener("change", updateProgress);
+
+    document.querySelectorAll("[data-max-group]").forEach(group => {
+      const name = group.dataset.maxGroup;
+      const max = Number(group.dataset.max || 3);
+      group.addEventListener("change", () => {
+        const checked = [...form.querySelectorAll(`input[name="${name}"]:checked`)];
+        if (checked.length > max) {
+          checked[checked.length - 1].checked = false;
+          showMessage(`এই প্রশ্নে সর্বোচ্চ ${max}টি অপশন নির্বাচন করা যাবে।`);
+        }
+      });
+    });
+
+    document.getElementById("locationBtn").addEventListener("click", () => {
+      const status = document.getElementById("locationStatus");
+      if (!navigator.geolocation) {
+        showMessage("এই ডিভাইস/ব্রাউজারে লোকেশন সাপোর্ট নেই। অনুগ্রহ করে অন্য ডিভাইস ব্যবহার করুন।");
+        return;
+      }
+
+      status.textContent = "লোকেশন নেওয়া হচ্ছে... অনুগ্রহ করে permission দিন।";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude.toFixed(7);
+          const lng = position.coords.longitude.toFixed(7);
+          const acc = Math.round(position.coords.accuracy || 0);
+          const link = `https://www.google.com/maps?q=${lat},${lng}`;
+
+          document.getElementById("latitude").value = lat;
+          document.getElementById("longitude").value = lng;
+          document.getElementById("locationAccuracy").value = acc;
+          document.getElementById("locationTime").value = new Date().toISOString();
+          document.getElementById("locationLink").value = link;
+
+          status.innerHTML = `✅ লোকেশন যুক্ত হয়েছে। Accuracy: প্রায় ${acc} মিটার<br><a href="${link}" target="_blank" rel="noopener">ম্যাপে দেখুন</a>`;
+          hideMessage();
+          updateProgress();
+        },
+        () => {
+          status.textContent = "লোকেশন নেওয়া যায়নি। অনুগ্রহ করে location permission allow করে আবার চেষ্টা করুন।";
+          showMessage("লোকেশন নেওয়া যায়নি। Spatial analysis-এর জন্য লোকেশন প্রয়োজন।");
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
+      );
+    });
+
+    function getFormData() {
+      const data = {};
+      const fd = new FormData(form);
+
+      for (const [key, value] of fd.entries()) {
+        if (data[key]) {
+          if (!Array.isArray(data[key])) data[key] = [data[key]];
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      }
+
+      data.clientInfo = navigator.userAgent;
+      data.sourceUrl = window.location.href;
+      return data;
+    }
+
+    function validateCheckboxGroup(name, label) {
+      const checked = form.querySelectorAll(`input[name="${name}"]:checked`);
+      if (checked.length === 0) {
+        showMessage(label + " প্রশ্নে অন্তত একটি অপশন নির্বাচন করুন।");
+        const first = form.querySelector(`input[name="${name}"]`);
+        if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
+        return false;
+      }
+      return true;
+    }
+
+    function validateForm() {
+      hideMessage();
+
+      if (!form.checkValidity()) {
+        showMessage("অনুগ্রহ করে সব বাধ্যতামূলক প্রশ্ন পূরণ করুন।");
+        const firstInvalid = form.querySelector(":invalid");
+        if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+        return false;
+      }
+
+      const checkboxGroups = [
+        ["transport", "যাতায়াত"],
+        ["marketProblems", "বাজারের সমস্যা"],
+        ["needSituations", "প্রয়োজনীয় পরিস্থিতি"],
+        ["usefulServices", "সেবা/পণ্য"],
+        ["expectations", "প্রত্যাশা"],
+        ["groceryItems", "গ্রোসারি পণ্য"],
+        ["healthItems", "স্বাস্থ্যপণ্য"],
+        ["communicationMethods", "যোগাযোগ মাধ্যম"],
+        ["infoWanted", "জানতে চাওয়া তথ্য"],
+        ["concerns", "ভয়/সন্দেহ"],
+        ["trustFactors", "বিশ্বাসের বিষয়"]
+      ];
+
+      for (const [name, label] of checkboxGroups) {
+        if (!validateCheckboxGroup(name, label)) return false;
+      }
+
+      if (!document.getElementById("locationLink").value) {
+        showMessage("অনুগ্রহ করে ‘লোকেশন যুক্ত করুন’ বাটনে ক্লিক করে আপনার বর্তমান লোকেশন যুক্ত করুন।");
+        document.getElementById("locationBtn").scrollIntoView({ behavior: "smooth", block: "center" });
+        return false;
+      }
+
+      return true;
+    }
+
+    function jsonpCheckPhone(phone) {
+      return new Promise((resolve, reject) => {
+        const callbackName = "psdSurveyCallback_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+        const script = document.createElement("script");
+        const timeout = window.setTimeout(() => {
+          cleanup();
+          reject(new Error("Duplicate check timeout"));
+        }, 12000);
+
+        function cleanup() {
+          window.clearTimeout(timeout);
+          delete window[callbackName];
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        window[callbackName] = function(result) {
+          cleanup();
+          resolve(result || {});
+        };
+
+        const url = SURVEY_API_URL
+          + "?action=checkPhone"
+          + "&phone=" + encodeURIComponent(phone)
+          + "&callback=" + encodeURIComponent(callbackName)
+          + "&t=" + Date.now();
+
+        script.onerror = function() {
+          cleanup();
+          reject(new Error("Duplicate check failed"));
+        };
+
+        script.src = url;
+        document.body.appendChild(script);
+      });
+    }
+
+    async function submitToGoogleSheet(data) {
+      await fetch(SURVEY_API_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data)
+      });
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!validateForm()) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "জমা দেওয়া হচ্ছে...";
+
+      const data = getFormData();
+
+      try {
+        const phoneCheck = await jsonpCheckPhone(data.phone);
+        if (phoneCheck.exists) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "জরিপ জমা দিন";
+          showMessage("এই মোবাইল নম্বর দিয়ে আগে জরিপে অংশ নেওয়া হয়েছে। একজন ব্যক্তি একবারই অংশ নিতে পারবেন।");
+          return;
+        }
+
+        await submitToGoogleSheet(data);
+
+        form.classList.add("hidden");
+        successCard.classList.remove("hidden");
+        document.getElementById("successMessage").textContent = "ধন্যবাদ। আপনার উত্তর জমা হয়েছে। Google Sheet-এ response দেখতে ১০–৩০ সেকেন্ড সময় লাগতে পারে।";
+        successCard.scrollIntoView({ behavior: "smooth" });
+
+      } catch (error) {
+        console.error(error);
+        showMessage("দুঃখিত, জমা দেওয়া যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "জরিপ জমা দিন";
+      }
+    });
+
+    updateProgress();
+  </script>
 </body>
 </html>
