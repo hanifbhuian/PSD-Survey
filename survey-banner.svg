@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#064e3b" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#f0fdfa"/>
+  <rect x="54" y="54" width="1092" height="522" rx="44" fill="url(#g)" filter="url(#shadow)"/>
+  <circle cx="1000" cy="120" r="110" fill="#ffffff" opacity="0.12"/>
+  <circle cx="145" cy="520" r="120" fill="#ffffff" opacity="0.12"/>
+  <text x="95" y="145" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#dcfce7">একাডেমিক গবেষণা জরিপ</text>
+  <text x="95" y="235" font-family="Arial, sans-serif" font-size="58" font-weight="800" fill="#ffffff">পীরগাছা এলাকার বাজার</text>
+  <text x="95" y="306" font-family="Arial, sans-serif" font-size="58" font-weight="800" fill="#ffffff">ও পণ্য সংগ্রহের বাস্তবতা</text>
+  <text x="95" y="380" font-family="Arial, sans-serif" font-size="30" fill="#ecfdf5">হোম ডেলিভারি, যাতায়াত, খরচ ও স্থানীয় চাহিদা বিষয়ক মতামত</text>
+  <text x="95" y="455" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">সময় ৫–৭ মিনিট | সম্মানী ২০ টাকা | বিকাশ/নগদ</text>
+  <text x="870" y="505" font-family="Arial, sans-serif" font-size="72" fill="#ffffff" opacity="0.9">🛒 🍛 💊 📍</text>
+</svg>
