@@ -1,0 +1,43 @@
+name: Fix Bangla digits
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Convert visible survey numerals to Bangla
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          trans = str.maketrans({
+              '\u06f0':'\u09e6','\u06f1':'\u09e7','\u06f2':'\u09e8','\u06f3':'\u09e9','\u06f4':'\u09ea','\u06f5':'\u09eb','\u06f6':'\u09ec','\u06f7':'\u09ed','\u06f8':'\u09ee','\u06f9':'\u09ef',
+              '\u0660':'\u09e6','\u0661':'\u09e7','\u0662':'\u09e8','\u0663':'\u09e9','\u0664':'\u09ea','\u0665':'\u09eb','\u0666':'\u09ec','\u0667':'\u09ed','\u0668':'\u09ee','\u0669':'\u09ef',
+          })
+          # Only translate the visible question/option data. Do not touch digit-normalization logic.
+          start = s.find('const sections')
+          end = s.find('const form', start)
+          if start != -1 and end != -1:
+              s = s[:start] + s[start:end].translate(trans) + s[end:]
+          else:
+              s = s.translate(trans)
+          p.write_text(s, encoding='utf-8')
+          PY
+          if git diff --quiet; then
+            echo 'No digit changes needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Convert survey numerals to Bangla'
+          git push
