@@ -101,7 +101,7 @@
         {n:"communicationMethods", q:"২৩. ডেলিভারি সার্ভিসের ক্ষেত্রে আপনি কোন মাধ্যমে পণ্য/খাবার/ওষুধের প্রয়োজন জানাতে বেশি স্বাচ্ছন্দ্যবোধ করবেন?", type:"check", req:true, two:true, o:["ফোন কল","WhatsApp","SMS","Facebook/Messenger","ওয়েবসাইট/ওয়েব অ্যাপ","পরিবারের কারো সাহায্যে"]},
         {n:"smartphoneUse", q:"২৪. আপনি কি স্মার্টফোন ব্যবহার করেন?", type:"select", req:true, o:["হ্যাঁ, নিয়মিত","হ্যাঁ, তবে খুব বেশি না","পরিবারের কারো স্মার্টফোন ব্যবহার করি","না"]},
         {n:"webUse", q:"২৫. আপনি কি ওয়েবসাইট/লিংক/অ্যাপ ব্যবহার করে তথ্য দিতে পারেন?", type:"select", req:true, o:["সহজে পারি","সামান্য সাহায্য লাগবে","পরিবারের কেউ সাহায্য করলে পারব","পারি না"]},
-        {n:"infoWanted", q:"২৬. পণ্য/খাবার/ওষুধের অনুরোধ দেওয়ার পর ডেলিভারি কোম্পানির কাছে  কোন তথ্য জানতে চাইবেন?", type:"check", req:true, two:true, o:["অনুরোধ গ্রহণ হয়েছে কি না","মোট দাম","আনুমানিক পৌঁছানোর সময়","বর্তমান অবস্থা","রসিদ/বিল","প্রয়োজন নেই"]}
+        {n:"infoWanted", q:"২৬. পণ্য/খাবার/ওষুধের অনুরোধ দেওয়ার পর ডেলিভারি কোম্পানির কাছে কোন তথ্য জানতে চাইবেন?", type:"check", req:true, two:true, o:["অনুরোধ গ্রহণ হয়েছে কি না","মোট দাম","আনুমানিক পৌঁছানোর সময়","বর্তমান অবস্থা","রসিদ/বিল","প্রয়োজন নেই"]}
       ]},
       {l:"ছ", t:"খরচ, চার্জ ও মতামত", h:"এখানে ডেলিভারির ক্ষেত্রে নির্দিষ্ট কোনো চার্জ উল্লেখ করা হয়নি। নিজের মতামত লিখুন।", qs:[
         {n:"costLocal", q:"২৭. আপনার এলাকায় ঘরে পণ্য পৌঁছে দিতে হলে যুক্তিসংগত সার্ভিস/যাতায়াত খরচ কত টাকা হওয়া উচিত বলে মনে করেন?", type:"num", ph:"শুধু সংখ্যা লিখুন, যেমন ৩০", req:true},
@@ -120,19 +120,10 @@
       ]}
     ];
 
-    function toBn(num){return String(num).replace(/[0-9]/g, d => "০১২৩৪৫৬৭৮৯"[Number(d)]);}
-    function escapeAttr(value){return String(value || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-    const form = document.getElementById("surveyForm");
-    const messageBox = document.getElementById("messageBox");
-    const successCard = document.getElementById("successCard");
-    const progressBar = document.getElementById("progressBar");
-    let qCounter = 0;
-
     function requiredClass(q){return q.req ? " required" : "";}
     function hint(q){return q.h ? `<p class="hint">${q.h}</p>` : "";}
     function field(q){
-      const qText = (q.type === "textarea" && q.n === "paymentReason") ? q.q : (toBn(++qCounter) + ". " + q.q.replace(/^[۰-۹٠-٩۰-۹0-9]+\.\s*/, ""));
-      let html = `<div class="field"><label class="question${requiredClass(q)}">${qText}</label>${hint(q)}`;
+      let html = `<div class="field" data-name="${escapeAttr(q.n)}"><label class="question${requiredClass(q)}">${q.q}</label>${hint(q)}`;
       if(q.type === "select"){
         html += `<select name="${escapeAttr(q.n)}" ${q.req ? "required" : ""}><option value="">নির্বাচন করুন</option>${q.o.map(x => `<option>${x}</option>`).join("")}</select>`;
       } else if(q.type === "check"){
@@ -258,8 +249,8 @@
       if(!navigator.geolocation){showMessage("এই ডিভাইস/ব্রাউজারে লোকেশন সাপোর্ট নেই। অনুগ্রহ করে অন্য ডিভাইস ব্যবহার করুন।"); return;}
       status.textContent = "লোকেশন নেওয়া হচ্ছে... অনুগ্রহ করে permission দিন।";
       navigator.geolocation.getCurrentPosition(
-        position => {
-          const lat = position.coords.latitude.toFixed(7), lng = position.coords.longitude.toFixed(7), acc = Math.round(position.coords.accuracy || 0), link = `https://www.google.com/maps?q=${lat},${lng}`;
+        p => {
+          const lat = p.coords.latitude.toFixed(7), lng = p.coords.longitude.toFixed(7), acc = Math.round(p.coords.accuracy || 0), link = `https://www.google.com/maps?q=${lat},${lng}`;
           locationLink.value = link; latitude.value = lat; longitude.value = lng; locationAccuracy.value = acc; locationTime.value = new Date().toISOString();
           status.innerHTML = `✅ লোকেশন যুক্ত হয়েছে। Accuracy: প্রায় ${acc} মিটার<br><a href="${link}" target="_blank" rel="noopener">ম্যাপে দেখুন</a>`;
           hideMessage(); updateProgress();
@@ -269,64 +260,67 @@
       );
     });
 
-    function validateForm(){
+    function validateCheckboxGroup(name, label){
+      if(form.querySelectorAll(`input[name="${name}"]:checked`).length === 0){
+        showMessage(label + " প্রশ্নে অন্তত একটি অপশন নির্বাচন করুন।");
+        const first = form.querySelector(`input[name="${name}"]`);
+        if(first){markInvalid(first); first.scrollIntoView({behavior:"smooth", block:"center"});}
+        return false;
+      }
+      return true;
+    }
+
+    async function validateForm(){
       hideMessage(); clearInvalidHighlights();
       ["phone","bkash"].forEach(id => {const el = document.getElementById(id); if(el) digitsOnly(el, 11);});
       document.querySelectorAll("[data-digits-only]").forEach(el => digitsOnly(el, 8));
       if(!form.checkValidity()){
         showMessage("অনুগ্রহ করে সব বাধ্যতামূলক প্রশ্ন পূরণ করুন। লাল রঙে চিহ্নিত প্রশ্নগুলো ঠিক করুন।");
         form.querySelectorAll(":invalid").forEach(markInvalid);
-        const firstInvalid = form.querySelector(":invalid"); if(firstInvalid) firstInvalid.scrollIntoView({behavior:"smooth", block:"center"});
+        const firstInvalid = form.querySelector(":invalid");
+        if(firstInvalid) firstInvalid.scrollIntoView({behavior:"smooth", block:"center"});
         return false;
       }
-      const distance = form.querySelector('[name="distance"]');
-      if(distance && distance.value === "۵ কিমির বেশি"){
-        showMessage("দুঃখিত, এই জরিপে অংশ নিতে উত্তরদাতাকে পীরগাছা বাজার থেকে ۵ কিলোমিটারের মধ্যে বসবাস করতে হবে।"); markInvalid(distance); distance.scrollIntoView({behavior:"smooth", block:"center"}); return false;
+      const d = form.querySelector('[name="distance"]');
+      if(d && d.value === "৫ কিমির বেশি"){
+        showMessage("দুঃখিত, এই জরিপে অংশ নিতে উত্তরদাতাকে পীরগাছা বাজার থেকে ৫ কিলোমিটারের মধ্যে বসবাস করতে হবে।"); markInvalid(d); d.scrollIntoView({behavior:"smooth", block:"center"}); return false;
       }
       for(const q of sections.flatMap(s => s.qs).filter(q => q.type === "check" && q.req)){
-        const checked = form.querySelectorAll(`input[name="${q.n}"]:checked`);
-        if(!checked.length){const first = form.querySelector(`input[name="${q.n}"]`); showMessage(q.q.replace(/^[۰-۹٠-٩۰-۹0-9]+\.\s*/, "") + " প্রশ্নে অন্তত একটি অপশন নির্বাচন করুন।"); markInvalid(first); if(first) first.scrollIntoView({behavior:"smooth", block:"center"}); return false;}
+        if(!validateCheckboxGroup(q.n, q.q.replace(/^[০-۹٠-٩0-9]+\.\s*/, ""))) return false;
       }
-      if(!locationLink.value){showMessage("অনুগ্রহ করে ‘লোকেশন যুক্ত করুন’ বাটনে ক্লিক করে আপনার বর্তমান লোকেশন যুক্ত করুন।"); markInvalid(document.getElementById("locationBtn")); locationBtn.scrollIntoView({behavior:"smooth", block:"center"}); return false;}
+      if(!locationLink.value){showMessage("অনুগ্রহ করে ‘লোকেশন যুক্ত করুন’ বাটনে ক্লিক করে আপনার বর্তমান লোকেশন যুক্ত করুন।"); markInvalid(locationBtn); locationBtn.scrollIntoView({behavior:"smooth", block:"center"}); return false;}
+      const duplicate = await checkPhoneDuplicate(true);
+      if(duplicate){document.getElementById("phone").scrollIntoView({behavior:"smooth", block:"center"}); return false;}
       return true;
     }
 
     function getFormData(){
       const data = {}, fd = new FormData(form);
-      for(const [key, value] of fd.entries()){
-        if(data[key]){if(!Array.isArray(data[key])) data[key] = [data[key]]; data[key].push(value);} else data[key] = value;
+      for(const [k,v] of fd.entries()){
+        if(data[k]){if(!Array.isArray(data[k])) data[k] = [data[k]]; data[k].push(v);} else data[k] = v;
       }
-      data.clientInfo = navigator.userAgent;
-      data.sourceUrl = location.href;
-      return data;
+      data.clientInfo = navigator.userAgent; data.sourceUrl = location.href; return data;
     }
 
     function submitViaIframe(data){
       return new Promise((resolve, reject) => {
-        const frameName = "psdFrame_" + Date.now();
+        const frameName = "psdSubmitFrame_" + Date.now() + "_" + Math.floor(Math.random()*100000);
         const iframe = document.createElement("iframe"); iframe.name = frameName; iframe.style.display = "none"; document.body.appendChild(iframe);
         const postForm = document.createElement("form"); postForm.method = "POST"; postForm.action = SURVEY_API_URL; postForm.target = frameName; postForm.enctype = "application/x-www-form-urlencoded"; postForm.acceptCharset = "UTF-8"; postForm.style.display = "none";
-        const add = (k, v) => {const input = document.createElement("input"); input.type = "hidden"; input.name = k; input.value = v == null ? "" : String(v); postForm.appendChild(input);};
-        Object.keys(data).forEach(k => Array.isArray(data[k]) ? data[k].forEach(v => add(k, v)) : add(k, data[k]));
-        add("submittedFrom", "GitHub Pages iframe form v10 duplicate-check");
-        let done = false;
-        const timer = setTimeout(() => {cleanup(); reject(new Error("timeout"));}, 30000);
-        function cleanup(){if(done) return; done = true; clearTimeout(timer); removeEventListener("message", receiveMessage); setTimeout(() => {postForm.remove(); iframe.remove();}, 600);}
-        function receiveMessage(event){let payload = event.data; if(typeof payload === "string"){try{payload = JSON.parse(payload);}catch(_){return;}} if(!payload || payload.psdSurvey !== true) return; cleanup(); resolve(payload);}
-        addEventListener("message", receiveMessage); document.body.appendChild(postForm); postForm.submit();
+        function add(name, value){const input = document.createElement("input"); input.type = "hidden"; input.name = name; input.value = value == null ? "" : String(value); postForm.appendChild(input);}
+        Object.keys(data).forEach(k => Array.isArray(data[k]) ? data[k].forEach(v => add(k,v)) : add(k,data[k])); add("submittedFrom", "GitHub Pages iframe form v11");
+        let finished = false;
+        const timeout = setTimeout(() => {cleanup(); reject(new Error("Submission timeout"));}, 30000);
+        function cleanup(){if(finished) return; finished = true; clearTimeout(timeout); removeEventListener("message", handleMessage); setTimeout(() => {postForm.remove(); iframe.remove();}, 600);}
+        function handleMessage(event){let p = event.data; if(typeof p === "string"){try{p = JSON.parse(p);}catch(_){return;}} if(!p || p.psdSurvey !== true) return; cleanup(); resolve(p);}
+        addEventListener("message", handleMessage); document.body.appendChild(postForm); postForm.submit();
       });
     }
 
     form.addEventListener("submit", async event => {
       event.preventDefault();
-      if(!validateForm()) return;
-      submitBtn.disabled = true; submitBtn.textContent = "নম্বর যাচাই করা হচ্ছে...";
-      const isDuplicate = await checkPhoneDuplicate(true);
-      if(isDuplicate){
-        submitBtn.disabled = false; submitBtn.textContent = "জরিপ জমা দিন";
-        return;
-      }
-      submitBtn.textContent = "জমা দেওয়া হচ্ছে...";
+      if(!(await validateForm())) return;
+      submitBtn.disabled = true; submitBtn.textContent = "জমা দেওয়া হচ্ছে...";
       try{
         const result = await submitViaIframe(getFormData());
         if(result && result.ok){form.classList.add("hidden"); successCard.classList.remove("hidden"); document.getElementById("successMessage").textContent = THANK_YOU; successCard.scrollIntoView({behavior:"smooth"});}
@@ -336,6 +330,8 @@
     });
 
     updateProgress();
+
+    function escapeAttr(value){return String(value || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   </script>
 </body>
 </html>
