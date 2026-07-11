@@ -122,6 +122,7 @@
 
     function requiredClass(q){return q.req ? " required" : "";}
     function hint(q){return q.h ? `<p class="hint">${q.h}</p>` : "";}
+    function escapeAttr(value){return String(value || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
     function field(q){
       let html = `<div class="field" data-name="${escapeAttr(q.n)}"><label class="question${requiredClass(q)}">${q.q}</label>${hint(q)}`;
       if(q.type === "select"){
@@ -145,8 +146,8 @@
     form.innerHTML = sections.map(section).join("") + `<div class="actions"><button id="submitBtn" class="btn" type="submit">জরিপ জমা দিন</button></div>`;
     const submitBtn = document.getElementById("submitBtn");
 
-    const digitMap = {"০":"0","১":"1","২":"2","৩":"3","৪":"4","৫":"5","৬":"6","৭":"7","৮":"8","৯":"9","০":"0","১":"1","২":"2","৩":"3","৪":"4","৫":"5","৬":"6","৭":"7","৮":"8","৯":"9","০":"0","১":"1","২":"2","৩":"3","৪":"4","৫":"5","৬":"6","৭":"7","৮":"8","৯":"9"};
-    function toEnglishDigits(value){return String(value || "").replace(/[০-৯০-৯০-৯]/g, d => digitMap[d] || d);}
+    const digitMap = {"۰":"0","۱":"1","۲":"2","۳":"3","۴":"4","۵":"5","۶":"6","۷":"7","۸":"8","۹":"9","٠":"0","١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","۰":"0","۱":"1","۲":"2","۳":"3","۴":"4","۵":"5","۶":"6","۷":"7","۸":"8","۹":"9","০":"0","১":"1","۲":"2","۲":"2","۲":"2"};
+    function toEnglishDigits(value){return String(value || "").replace(/[۰-۹٠-٩۰-۹۰-۹۰-۹]/g, d => digitMap[d] || d);}
     function digitsOnly(el, max){el.value = toEnglishDigits(el.value).replace(/\D/g, "").slice(0, max || 50);}
 
     ["phone","bkash"].forEach(id => {const el = document.getElementById(id); if(el) el.addEventListener("input", () => digitsOnly(el, 11));});
@@ -249,89 +250,22 @@
       if(!navigator.geolocation){showMessage("এই ডিভাইস/ব্রাউজারে লোকেশন সাপোর্ট নেই। অনুগ্রহ করে অন্য ডিভাইস ব্যবহার করুন।"); return;}
       status.textContent = "লোকেশন নেওয়া হচ্ছে... অনুগ্রহ করে permission দিন।";
       navigator.geolocation.getCurrentPosition(
-        p => {
-          const lat = p.coords.latitude.toFixed(7), lng = p.coords.longitude.toFixed(7), acc = Math.round(p.coords.accuracy || 0), link = `https://www.google.com/maps?q=${lat},${lng}`;
-          locationLink.value = link; latitude.value = lat; longitude.value = lng; locationAccuracy.value = acc; locationTime.value = new Date().toISOString();
-          status.innerHTML = `✅ লোকেশন যুক্ত হয়েছে। Accuracy: প্রায় ${acc} মিটার<br><a href="${link}" target="_blank" rel="noopener">ম্যাপে দেখুন</a>`;
-          hideMessage(); updateProgress();
+        position => {
+          const lat = position.coords.latitude.toFixed(7), lng = position.coords.longitude.toFixed(7), acc = Math.round(position.coords.accuracy || 0), link = `https://www.google.com/maps?q=${lat},${lng}`;
+          document.getElementById("latitude").value = lat; document.getElementById("longitude").value = lng; document.getElementById("locationAccuracy").value = acc; document.getElementById("locationTime").value = new Date().toISOString(); document.getElementById("locationLink").value = link;
+          status.innerHTML = `✅ লোকেশন যুক্ত হয়েছে। Accuracy: প্রায় ${acc} মিটার<br><a href="${link}" target="_blank" rel="noopener">ম্যাপে দেখুন</a>`; hideMessage(); updateProgress();
         },
         () => {status.textContent = "লোকেশন নেওয়া যায়নি। অনুগ্রহ করে location permission allow করে আবার চেষ্টা করুন।"; showMessage("লোকেশন নেওয়া যায়নি। Spatial analysis-এর জন্য লোকেশন প্রয়োজন।");},
         {enableHighAccuracy:true, timeout:15000, maximumAge:60000}
       );
     });
 
-    function validateCheckboxGroup(name, label){
-      if(form.querySelectorAll(`input[name="${name}"]:checked`).length === 0){
-        showMessage(label + " প্রশ্নে অন্তত একটি অপশন নির্বাচন করুন।");
-        const first = form.querySelector(`input[name="${name}"]`);
-        if(first){markInvalid(first); first.scrollIntoView({behavior:"smooth", block:"center"});}
-        return false;
-      }
-      return true;
-    }
-
-    async function validateForm(){
-      hideMessage(); clearInvalidHighlights();
-      ["phone","bkash"].forEach(id => {const el = document.getElementById(id); if(el) digitsOnly(el, 11);});
-      document.querySelectorAll("[data-digits-only]").forEach(el => digitsOnly(el, 8));
-      if(!form.checkValidity()){
-        showMessage("অনুগ্রহ করে সব বাধ্যতামূলক প্রশ্ন পূরণ করুন। লাল রঙে চিহ্নিত প্রশ্নগুলো ঠিক করুন।");
-        form.querySelectorAll(":invalid").forEach(markInvalid);
-        const firstInvalid = form.querySelector(":invalid");
-        if(firstInvalid) firstInvalid.scrollIntoView({behavior:"smooth", block:"center"});
-        return false;
-      }
-      const d = form.querySelector('[name="distance"]');
-      if(d && d.value === "৫ কিমির বেশি"){
-        showMessage("দুঃখিত, এই জরিপে অংশ নিতে উত্তরদাতাকে পীরগাছা বাজার থেকে ৫ কিলোমিটারের মধ্যে বসবাস করতে হবে।"); markInvalid(d); d.scrollIntoView({behavior:"smooth", block:"center"}); return false;
-      }
-      for(const q of sections.flatMap(s => s.qs).filter(q => q.type === "check" && q.req)){
-        if(!validateCheckboxGroup(q.n, q.q.replace(/^[০-৯০-৯0-9]+\.\s*/, ""))) return false;
-      }
-      if(!locationLink.value){showMessage("অনুগ্রহ করে ‘লোকেশন যুক্ত করুন’ বাটনে ক্লিক করে আপনার বর্তমান লোকেশন যুক্ত করুন।"); markInvalid(locationBtn); locationBtn.scrollIntoView({behavior:"smooth", block:"center"}); return false;}
-      const duplicate = await checkPhoneDuplicate(true);
-      if(duplicate){document.getElementById("phone").scrollIntoView({behavior:"smooth", block:"center"}); return false;}
-      return true;
-    }
-
-    function getFormData(){
-      const data = {}, fd = new FormData(form);
-      for(const [k,v] of fd.entries()){
-        if(data[k]){if(!Array.isArray(data[k])) data[k] = [data[k]]; data[k].push(v);} else data[k] = v;
-      }
-      data.clientInfo = navigator.userAgent; data.sourceUrl = location.href; return data;
-    }
-
-    function submitViaIframe(data){
-      return new Promise((resolve, reject) => {
-        const frameName = "psdSubmitFrame_" + Date.now() + "_" + Math.floor(Math.random()*100000);
-        const iframe = document.createElement("iframe"); iframe.name = frameName; iframe.style.display = "none"; document.body.appendChild(iframe);
-        const postForm = document.createElement("form"); postForm.method = "POST"; postForm.action = SURVEY_API_URL; postForm.target = frameName; postForm.enctype = "application/x-www-form-urlencoded"; postForm.acceptCharset = "UTF-8"; postForm.style.display = "none";
-        function add(name, value){const input = document.createElement("input"); input.type = "hidden"; input.name = name; input.value = value == null ? "" : String(value); postForm.appendChild(input);}
-        Object.keys(data).forEach(k => Array.isArray(data[k]) ? data[k].forEach(v => add(k,v)) : add(k,data[k])); add("submittedFrom", "GitHub Pages iframe form v11");
-        let finished = false;
-        const timeout = setTimeout(() => {cleanup(); reject(new Error("Submission timeout"));}, 30000);
-        function cleanup(){if(finished) return; finished = true; clearTimeout(timeout); removeEventListener("message", handleMessage); setTimeout(() => {postForm.remove(); iframe.remove();}, 600);}
-        function handleMessage(event){let p = event.data; if(typeof p === "string"){try{p = JSON.parse(p);}catch(_){return;}} if(!p || p.psdSurvey !== true) return; cleanup(); resolve(p);}
-        addEventListener("message", handleMessage); document.body.appendChild(postForm); postForm.submit();
-      });
-    }
-
-    form.addEventListener("submit", async event => {
-      event.preventDefault();
-      if(!(await validateForm())) return;
-      submitBtn.disabled = true; submitBtn.textContent = "জমা দেওয়া হচ্ছে...";
-      try{
-        const result = await submitViaIframe(getFormData());
-        if(result && result.ok){form.classList.add("hidden"); successCard.classList.remove("hidden"); document.getElementById("successMessage").textContent = THANK_YOU; successCard.scrollIntoView({behavior:"smooth"});}
-        else showMessage(result && result.message ? result.message : "দুঃখিত, জমা দেওয়া যায়নি। আবার চেষ্টা করুন।");
-      } catch(error){showMessage("দুঃখিত, জমা দেওয়া যায়নি। ইন্টারনেট সংযোগ/ব্যাকএন্ড সেটিংস পরীক্ষা করে আবার চেষ্টা করুন।");}
-      finally{submitBtn.disabled = false; submitBtn.textContent = "জরিপ জমা দিন";}
-    });
-
+    function validateCheckboxGroup(name, label){const checked = form.querySelectorAll(`input[name="${name}"]:checked`); if(checked.length === 0){showMessage(label + " প্রশ্নে অন্তত একটি অপশন নির্বাচন করুন।"); const first = form.querySelector(`input[name="${name}"]`); if(first){markInvalid(first); first.scrollIntoView({behavior:"smooth", block:"center"});} return false;} return true;}
+    function validateForm(){hideMessage(); clearInvalidHighlights(); ["phone","bkash"].forEach(id => {const el = document.getElementById(id); if(el) digitsOnly(el, 11);}); document.querySelectorAll("[data-digits-only]").forEach(el => digitsOnly(el, 8)); if(!form.checkValidity()){showMessage("অনুগ্রহ করে সব বাধ্যতামূলক প্রশ্ন পূরণ করুন। লাল রঙে চিহ্নিত প্রশ্নগুলো ঠিক করুন।"); form.querySelectorAll(":invalid").forEach(markInvalid); const firstInvalid = form.querySelector(":invalid"); if(firstInvalid) firstInvalid.scrollIntoView({behavior:"smooth", block:"center"}); return false;} const distanceField = form.querySelector('[name="distance"]'); if(distanceField && distanceField.value === "۵ কিমির বেশি"){showMessage("দুঃখিত, এই জরিপে অংশ নিতে উত্তরদাতাকে পীরগাছা বাজার থেকে ۵ কিলোমিটারের মধ্যে বসবাস করতে হবে।"); markInvalid(distanceField); distanceField.scrollIntoView({behavior:"smooth", block:"center"}); return false;} const checkboxGroups = [["transport","যাতায়াত"],["marketProblems","বাজারের সমস্যা"],["needSituations","প্রয়োজনীয় পরিস্থিতি"],["usefulServices","সেবা/পণ্য"],["expectations","প্রত্যাশা"],["groceryItems","গ্রোসারি পণ্য"],["healthItems","স্বাস্থ্যপণ্য"],["communicationMethods","যোগাযোগ মাধ্যম"],["infoWanted","জানতে চাওয়া তথ্য"],["concerns","ভয়/সন্দেহ"],["trustFactors","বিশ্বাসের বিষয়"]]; for(const [name,label] of checkboxGroups){if(!validateCheckboxGroup(name,label)) return false;} if(!document.getElementById("locationLink").value){showMessage("অনুগ্রহ করে ‘লোকেশন যুক্ত করুন’ বাটনে ক্লিক করে আপনার বর্তমান লোকেশন যুক্ত করুন।"); markInvalid(document.getElementById("locationBtn")); document.getElementById("locationBtn").scrollIntoView({behavior:"smooth", block:"center"}); return false;} return true;}
+    function getFormData(){const data = {}, fd = new FormData(form); for(const [key,value] of fd.entries()){if(data[key]){if(!Array.isArray(data[key])) data[key] = [data[key]]; data[key].push(value);} else data[key] = value;} data.clientInfo = navigator.userAgent; data.sourceUrl = window.location.href; return data;}
+    function submitViaIframe(data){return new Promise((resolve,reject) => {const frameName = "psdSubmitFrame_" + Date.now() + "_" + Math.floor(Math.random()*100000), iframe = document.createElement("iframe"); iframe.name = frameName; iframe.style.display = "none"; document.body.appendChild(iframe); const postForm = document.createElement("form"); postForm.method = "POST"; postForm.action = SURVEY_API_URL; postForm.target = frameName; postForm.enctype = "application/x-www-form-urlencoded"; postForm.acceptCharset = "UTF-8"; postForm.style.display = "none"; function appendInput(name,value){const input = document.createElement("input"); input.type = "hidden"; input.name = name; input.value = value == null ? "" : String(value); postForm.appendChild(input);} Object.keys(data).forEach(key => {const value = data[key]; if(Array.isArray(value)){value.forEach(item => appendInput(key,item));} else appendInput(key,value);}); appendInput("submittedFrom", "GitHub Pages iframe form v10 duplicate-check"); let finished = false; const timeout = window.setTimeout(() => {cleanup(); reject(new Error("Submission timeout"));}, 30000); function cleanup(){if(finished) return; finished = true; window.clearTimeout(timeout); window.removeEventListener("message", handleMessage); window.setTimeout(() => {if(postForm.parentNode) postForm.parentNode.removeChild(postForm); if(iframe.parentNode) iframe.parentNode.removeChild(iframe);}, 600);} function handleMessage(event){let payload = event.data; if(typeof payload === "string"){try{payload = JSON.parse(payload);}catch(e){return;}} if(!payload || payload.psdSurvey !== true) return; cleanup(); resolve(payload);} window.addEventListener("message", handleMessage); document.body.appendChild(postForm); postForm.submit();});}
+    form.addEventListener("submit", async event => {event.preventDefault(); if(!validateForm()) return; submitBtn.disabled = true; submitBtn.textContent = "নম্বর যাচাই করা হচ্ছে..."; try{const isDuplicate = await checkPhoneDuplicate(true); if(isDuplicate){submitBtn.disabled = false; submitBtn.textContent = "জরিপ জমা দিন"; return;} submitBtn.textContent = "জমা দেওয়া হচ্ছে..."; const result = await submitViaIframe(getFormData()); if(result && result.ok){form.classList.add("hidden"); successCard.classList.remove("hidden"); document.getElementById("successMessage").textContent = THANK_YOU; successCard.scrollIntoView({behavior:"smooth"});} else {showMessage(result && result.message ? result.message : "দুঃখিত, জমা দেওয়া যায়নি। আবার চেষ্টা করুন।");}} catch(error){console.error(error); showMessage("দুঃখিত, জমা দেওয়া যায়নি। ইন্টারনেট সংযোগ/ব্যাকএন্ড সেটিংস পরীক্ষা করে আবার চেষ্টা করুন।");} finally{submitBtn.disabled = false; submitBtn.textContent = "জরিপ জমা দিন";}});
     updateProgress();
-
-    function escapeAttr(value){return String(value || "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   </script>
 </body>
 </html>
