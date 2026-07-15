@@ -1,0 +1,120 @@
+name: Add location fallback
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-location:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add current and recent cached location fallback
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+
+          note = ('<p id="locationRequiredNote" class="hint" style="margin-top:10px;color:#92400e;'
+                  'background:#fffbeb;border:1px solid #fde68a;padding:10px 12px;border-radius:12px;">'
+                  '<strong>গুরুত্বপূর্ণ:</strong> জরিপে অংশ নেওয়ার সময় ডিভাইসের লোকেশন বন্ধ থাকলে অন করে নিন। '
+                  'অন্যথায় লোকেশন যুক্ত হবে না এবং জরিপ সফলভাবে সম্পূর্ণ করা যাবে না।</p>')
+          button_marker = '<button class="btn secondary" type="button" id="locationBtn">📍 লোকেশন যুক্ত করুন</button>'
+          if 'id="locationRequiredNote"' not in html:
+              if button_marker not in html:
+                  raise SystemExit('Location button marker not found')
+              html = html.replace(button_marker, note + button_marker, 1)
+
+          start_marker = 'document.getElementById("locationBtn").addEventListener("click",()=>{'
+          end_marker = 'function validateCheckboxGroup'
+          start = html.find(start_marker)
+          end = html.find(end_marker, start)
+          if start == -1 or end == -1:
+              raise SystemExit('Location JavaScript block not found')
+
+          new_code = r'''const locationBtn=document.getElementById("locationBtn");
+          if(locationBtn){locationBtn.addEventListener("click",()=>{
+            const status=document.getElementById("locationStatus");
+            if(!navigator.geolocation){
+              showMessage("এই ডিভাইস/ব্রাউজারে লোকেশন সাপোর্ট নেই। অনুগ্রহ করে অন্য ডিভাইস ব্যবহার করুন।");
+              return;
+            }
+
+            locationBtn.disabled=true;
+            status.textContent="বর্তমান লোকেশন নেওয়া হচ্ছে... অনুগ্রহ করে location permission দিন।";
+
+            function saveLocation(position,source){
+              const lat=position.coords.latitude.toFixed(7);
+              const lng=position.coords.longitude.toFixed(7);
+              const acc=Math.round(position.coords.accuracy||0);
+              const fixTime=position.timestamp||Date.now();
+              const link=`https://www.google.com/maps?q=${lat},${lng}`;
+
+              document.getElementById("locationLink").value=link;
+              document.getElementById("latitude").value=lat;
+              document.getElementById("longitude").value=lng;
+              document.getElementById("locationAccuracy").value=acc;
+              document.getElementById("locationTime").value=new Date(fixTime).toISOString();
+
+              if(source==="cached"){
+                const ageMinutes=Math.max(0,Math.round((Date.now()-fixTime)/60000));
+                const ageText=ageMinutes>0?`প্রায় ${ageMinutes} মিনিট আগের`:"সাম্প্রতিক";
+                status.innerHTML=`✅ বর্তমান লোকেশন পাওয়া যায়নি। ডিভাইসের ${ageText} সর্বশেষ পাওয়া লোকেশন যুক্ত হয়েছে। Accuracy: প্রায় ${acc} মিটার<br><a href="${link}" target="_blank" rel="noopener">ম্যাপে দেখুন</a>`;
+              }else{
+                status.innerHTML=`✅ বর্তমান লোকেশন যুক্ত হয়েছে। Accuracy: প্রায় ${acc} মিটার<br><a href="${link}" target="_blank" rel="noopener">ম্যাপে দেখুন</a>`;
+              }
+
+              locationBtn.disabled=false;
+              hideMessage();
+              updateProgress();
+            }
+
+            function locationFailed(){
+              locationBtn.disabled=false;
+              status.textContent="লোকেশন নেওয়া যায়নি। ডিভাইসের Location চালু করে এবং browser permission Allow করে আবার চেষ্টা করুন।";
+              showMessage("লোকেশন নেওয়া যায়নি। জরিপ সফলভাবে সম্পূর্ণ করতে ডিভাইসের Location চালু করে আবার ‘লোকেশন যুক্ত করুন’ বাটনে ক্লিক করুন।");
+            }
+
+            navigator.geolocation.getCurrentPosition(
+              position=>saveLocation(position,"current"),
+              error=>{
+                if(error&&error.code===1){
+                  locationFailed();
+                  return;
+                }
+
+                status.textContent="বর্তমান লোকেশন পাওয়া যায়নি। ডিভাইসের সর্বশেষ পাওয়া লোকেশন খোঁজা হচ্ছে...";
+                navigator.geolocation.getCurrentPosition(
+                  position=>saveLocation(position,"cached"),
+                  ()=>locationFailed(),
+                  {enableHighAccuracy:false,timeout:10000,maximumAge:600000}
+                );
+              },
+              {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+            );
+          });}
+          '''
+
+          html = html[:start] + new_code + html[end:]
+          html = html.replace('GitHub Pages static form v18', 'GitHub Pages static form v20')
+          html = html.replace('GitHub Pages static form v19', 'GitHub Pages static form v20')
+          path.write_text(html, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Add recent cached location fallback"
+            git push
+          fi
