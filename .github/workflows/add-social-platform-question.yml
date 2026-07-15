@@ -1,0 +1,86 @@
+name: Add social platform question
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add social media question and renumber
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+
+          # Keep 30 taka honorarium wording.
+          html = html.replace('অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা সম্মানী পাঠানো হবে।', 'অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ৩০ টাকা সম্মানী পাঠানো হবে।')
+          html = html.replace('জরিপে অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা পাঠানো হবে (১-২ দিনের মধ্যে)', 'জরিপে অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ৩০ টাকা পাঠানো হবে (১-২ দিনের মধ্যে)')
+          html = html.replace('ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য ভেরিফাই করে আগামী ২দিনের মধ্যে আপনার বিকাশ নাম্বারে সম্মানী পাঠিয়ে দেয়া হবে।', 'ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য ভেরিফাই করে আগামী ২দিনের মধ্যে আপনার বিকাশ/নগদ নাম্বারে ৩০ টাকা সম্মানী পাঠিয়ে দেয়া হবে।')
+
+          if 'name="socialPlatforms"' not in html:
+              marker = '<div class="field"><label class="question required">২৬. পণ্য/খাবার/ওষুধের অনুরোধ দেওয়ার পর ডেলিভারি কোম্পানির কাছে কোন তথ্য জানতে চাইবেন?</label>'
+              new_question = (
+                  '<div class="field"><label class="question required">২৬. আপনি কোন কোন সোশ্যাল মিডিয়া/মেসেজিং প্ল্যাটফর্ম ব্যবহার করেন?</label>'
+                  '<p class="hint">একাধিক অপশন নির্বাচন করতে পারেন।</p>'
+                  '<div class="options two" data-check-group="socialPlatforms">'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="Facebook / ফেসবুক"><span>Facebook / ফেসবুক</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="Facebook Messenger / মেসেঞ্জার"><span>Facebook Messenger / মেসেঞ্জার</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="YouTube / ইউটিউব"><span>YouTube / ইউটিউব</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="TikTok / টিকটক"><span>TikTok / টিকটক</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="WhatsApp / হোয়াটসঅ্যাপ"><span>WhatsApp / হোয়াটসঅ্যাপ</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="Imo / ইমো"><span>Imo / ইমো</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="Instagram / ইনস্টাগ্রাম"><span>Instagram / ইনস্টাগ্রাম</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="Telegram / টেলিগ্রাম"><span>Telegram / টেলিগ্রাম</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="কোনটাই না"><span>কোনটাই না</span></label>'
+                  '<label class="option"><input type="checkbox" name="socialPlatforms" value="অন্যান্য"><span>অন্যান্য</span></label>'
+                  '</div></div>'
+              )
+              if marker not in html:
+                  raise SystemExit('Insert marker not found')
+              html = html.replace(marker, new_question + marker, 1)
+
+          bn_digits = ''.join(chr(cp) for cp in range(ord('০'), ord('৯') + 1))
+          def to_bn(n):
+              return ''.join(bn_digits[int(d)] for d in str(n))
+
+          counter = 0
+          def repl_label(match):
+              global counter
+              counter += 1
+              return f'{match.group(1)}{to_bn(counter)}. {match.group(3)}'
+          html = re.sub(r'(<label class="question(?: required)?">)([০-۹0-9]+)\.\s*([^<]+</label>)', repl_label, html)
+
+          html = html.replace(
+              'const checkGroups = ["transport","marketProblems","needSituations","usefulServices","expectations","groceryItems","healthItems","communicationMethods","infoWanted","concerns","trustFactors"];',
+              'const checkGroups = ["transport","marketProblems","needSituations","usefulServices","expectations","groceryItems","healthItems","communicationMethods","socialPlatforms","infoWanted","concerns","trustFactors"];'
+          )
+          html = html.replace(
+              '["healthItems","স্বাস্থ্যপণ্য"],["communicationMethods","যোগাযোগ মাধ্যম"],["infoWanted","জানতে চাওয়া তথ্য"],',
+              '["healthItems","স্বাস্থ্যপণ্য"],["communicationMethods","যোগাযোগ মাধ্যম"],["socialPlatforms","সোশ্যাল মিডিয়া/মেসেজিং প্ল্যাটফর্ম"],["infoWanted","জানতে চাওয়া তথ্য"],'
+          )
+          html = html.replace('GitHub Pages static form v14', 'GitHub Pages static form v17')
+
+          path.write_text(html, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Add social media platform question"
+            git push
+          fi
