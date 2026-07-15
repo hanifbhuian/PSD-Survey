@@ -1,0 +1,44 @@
+name: Set honorarium to 25 taka
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace honorarium amount
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+          replacements = {
+              '৩০ টাকা সম্মানী': '২৫ টাকা সম্মানী',
+              '৩০ টাকা পাঠানো হবে': '২৫ টাকা পাঠানো হবে',
+              '৩০ টাকা পাঠিয়ে': '২৫ টাকা পাঠিয়ে',
+              '৩০ টাকা পাঠিয়ে': '২৫ টাকা পাঠিয়ে',
+              'বিকাশ/নগদ নাম্বারে ৩০ টাকা': 'বিকাশ/নগদ নাম্বারে ২৫ টাকা',
+              'বিকাশ/নগদ নম্বরে ৩০ টাকা': 'বিকাশ/নগদ নম্বরে ২৫ টাকা',
+          }
+          for old, new in replacements.items():
+              html = html.replace(old, new)
+          html = html.replace('GitHub Pages static form v17', 'GitHub Pages static form v18')
+          path.write_text(html, encoding='utf-8')
+          PY
+          if git diff --quiet; then
+            echo "No honorarium changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Set survey honorarium to 25 taka"
+          git push
