@@ -1,0 +1,39 @@
+name: Fix social platform progress group
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add socialPlatforms to progress tracking
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+          html = html.replace(
+            'const checkNames=["transport","marketProblems","needSituations","usefulServices","expectations","groceryItems","healthItems","communicationMethods","infoWanted","concerns","trustFactors"];',
+            'const checkNames=["transport","marketProblems","needSituations","usefulServices","expectations","groceryItems","healthItems","communicationMethods","socialPlatforms","infoWanted","concerns","trustFactors"];'
+          )
+          path.write_text(html, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Include social platform in progress tracking"
+            git push
+          fi
