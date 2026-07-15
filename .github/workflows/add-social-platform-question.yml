@@ -23,7 +23,6 @@ jobs:
           path = Path('index.html')
           html = path.read_text(encoding='utf-8')
 
-          # Keep 30 taka honorarium wording.
           html = html.replace('অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা সম্মানী পাঠানো হবে।', 'অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ৩০ টাকা সম্মানী পাঠানো হবে।')
           html = html.replace('জরিপে অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ২০ টাকা পাঠানো হবে (১-২ দিনের মধ্যে)', 'জরিপে অংশগ্রহণকারীর বিকাশ/নগদ নম্বরে ৩০ টাকা পাঠানো হবে (১-২ দিনের মধ্যে)')
           html = html.replace('ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য ভেরিফাই করে আগামী ২দিনের মধ্যে আপনার বিকাশ নাম্বারে সম্মানী পাঠিয়ে দেয়া হবে।', 'ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য ভেরিফাই করে আগামী ২দিনের মধ্যে আপনার বিকাশ/নগদ নাম্বারে ৩০ টাকা সম্মানী পাঠিয়ে দেয়া হবে।')
@@ -59,7 +58,7 @@ jobs:
               global counter
               counter += 1
               return f'{match.group(1)}{to_bn(counter)}. {match.group(3)}'
-          html = re.sub(r'(<label class="question(?: required)?">)([০-۹0-9]+)\.\s*([^<]+</label>)', repl_label, html)
+          html = re.sub(r'(<label class="question(?: required)?">)([০-۹]+)\.\s*([^<]+</label>)', repl_label, html)
 
           html = html.replace(
               'const checkGroups = ["transport","marketProblems","needSituations","usefulServices","expectations","groceryItems","healthItems","communicationMethods","infoWanted","concerns","trustFactors"];',
