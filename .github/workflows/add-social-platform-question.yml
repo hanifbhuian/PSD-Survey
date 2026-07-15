@@ -49,7 +49,7 @@ jobs:
                   raise SystemExit('Insert marker not found')
               html = html.replace(marker, new_question + marker, 1)
 
-          bn_digits = ''.join(chr(cp) for cp in range(ord('০'), ord('৯') + 1))
+          bn_digits = ''.join(chr(cp) for cp in range(ord('০'), ord('۹') + 1))
           def to_bn(n):
               return ''.join(bn_digits[int(d)] for d in str(n))
 
@@ -58,7 +58,7 @@ jobs:
               global counter
               counter += 1
               return f'{match.group(1)}{to_bn(counter)}. {match.group(3)}'
-          html = re.sub(r'(<label class="question(?: required)?">)([০-۹]+)\.\s*([^<]+</label>)', repl_label, html)
+          html = re.sub(r'(<label class="question(?: required)?">)(\d+)\.\s*([^<]+</label>)', repl_label, html)
 
           html = html.replace(
               'const checkGroups = ["transport","marketProblems","needSituations","usefulServices","expectations","groceryItems","healthItems","communicationMethods","infoWanted","concerns","trustFactors"];',
