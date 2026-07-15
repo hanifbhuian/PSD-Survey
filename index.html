@@ -168,7 +168,7 @@ function checkPhoneDuplicate(showMessageToUser){
     if(phoneCheckCache.exists && showMessageToUser){
       markInvalid(el);
       if(phoneStatus) phoneStatus.textContent = "❌ এই মোবাইল নম্বর দিয়ে আগে জরিপে অংশ নেওয়া হয়েছে।";
-      showMessage("এই মোবাইল নম্বর দিয়ে আগে জরিপে অংশ নেওয়া হয়েছে। একই নম্বর দিয়ে একবারের বেশি অংশ নেওয়া যাবে না।");
+      showMessage("দুঃখিত! আপনি ইতিপূর্বে একবার জরিপে অংশগ্রহণ করেছেন এবং আপনার পূর্বের জরিপটি সফলভাবে সম্পন্ন হয়েছে। একই পরিবারের সর্বোচ্চ একজন জরিপে অংশগ্রহণ করতে পারবে এবং একই ডিভাইস থেকে দ্বিতীয়বার অংশগ্রহণ করা যাবে না।");
     }
     return Promise.resolve(phoneCheckCache.exists);
   }
@@ -186,7 +186,7 @@ function checkPhoneDuplicate(showMessageToUser){
       if(exists){
         markInvalid(el);
         if(phoneStatus) phoneStatus.textContent = "❌ এই মোবাইল নম্বর দিয়ে আগে জরিপে অংশ নেওয়া হয়েছে।";
-        if(showMessageToUser) showMessage("এই মোবাইল নম্বর দিয়ে আগে জরিপে অংশ নেওয়া হয়েছে। একই নম্বর দিয়ে একবারের বেশি অংশ নেওয়া যাবে না।");
+        if(showMessageToUser) showMessage("দুঃখিত! আপনি ইতিপূর্বে একবার জরিপে অংশগ্রহণ করেছেন এবং আপনার পূর্বের জরিপটি সফলভাবে সম্পন্ন হয়েছে। একই পরিবারের সর্বোচ্চ একজন জরিপে অংশগ্রহণ করতে পারবে এবং একই ডিভাইস থেকে দ্বিতীয়বার অংশগ্রহণ করা যাবে না।");
       } else if(showMessageToUser && phoneStatus) phoneStatus.textContent = "✅ এই নম্বরটি এখনো ব্যবহার হয়নি।";
       resolve(exists);
     };
@@ -258,7 +258,7 @@ function submitViaIframe(data){
     postForm.method = "POST"; postForm.action = SURVEY_API_URL; postForm.target = frameName; postForm.enctype = "application/x-www-form-urlencoded"; postForm.acceptCharset = "UTF-8"; postForm.style.display = "none";
     function add(name, value){const input = document.createElement("input"); input.type = "hidden"; input.name = name; input.value = value == null ? "" : String(value); postForm.appendChild(input);}
     Object.keys(data).forEach(key => {Array.isArray(data[key]) ? data[key].forEach(v => add(key, v)) : add(key, data[key]);});
-    add("submittedFrom", "GitHub Pages static form v20");
+    add("submittedFrom", "GitHub Pages static form v21");
     let finished = false;
     const timeout = window.setTimeout(() => {cleanup(); reject(new Error("Submission timeout"));}, 30000);
     function cleanup(){if(finished) return; finished = true; window.clearTimeout(timeout); window.removeEventListener("message", handleMessage); window.setTimeout(() => {if(postForm.parentNode) postForm.parentNode.removeChild(postForm); if(iframe.parentNode) iframe.parentNode.removeChild(iframe);}, 600);}
@@ -292,5 +292,6 @@ form.addEventListener("submit", async event => {
 });
 updateProgress();
 </script>
+<script src="device-guard.js?v=1"></script>
 </body>
 </html>
