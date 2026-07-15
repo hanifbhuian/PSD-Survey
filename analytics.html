@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PSD Survey Live Analytics</title>
+  <meta name="description" content="পীরগাছা জরিপের লাইভ অ্যানালিটিক্যাল ড্যাশবোর্ড">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    :root{--brand:#0f766e;--brand2:#22c55e;--ink:#17312d;--muted:#64748b;--line:#dcebe7;--card:#fff;--bg:#f4faf7}
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#ecfdf5,#f8fafc 38%,#fff);color:var(--ink);font-family:"Noto Sans Bengali","Hind Siliguri",Arial,sans-serif}
+    .wrap{max-width:1240px;margin:auto;padding:20px}
+    .hero{background:linear-gradient(135deg,#0f766e,#1f8a5b 52%,#3aa655);color:#fff;padding:28px;border-radius:0 0 30px 30px;box-shadow:0 18px 45px rgba(15,118,110,.22)}
+    .hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px)}.hero p{margin:0;max-width:850px;opacity:.94}
+    .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0;flex-wrap:wrap}
+    .status{font-size:14px;color:var(--muted)}button{border:0;border-radius:13px;padding:11px 16px;background:var(--brand);color:white;font-weight:800;cursor:pointer}
+    .kpis{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 30px rgba(15,118,110,.07);padding:16px}
+    .kpi .label{font-size:13px;color:var(--muted)}.kpi .value{font-size:28px;font-weight:900;margin-top:4px;color:#115e59}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+    .chart-card h2,.map-card h2{font-size:18px;margin:0 0 12px}.chart-wrap{position:relative;height:330px}
+    .wide{grid-column:1/-1}#map{height:520px;border-radius:16px;border:1px solid var(--line)}
+    .privacy{margin-top:10px;color:var(--muted);font-size:13px}
+    .loading{padding:16px;background:#fffbeb;border:1px solid #fde68a;border-radius:14px;color:#92400e}
+    @media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:760px){.wrap{padding:12px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.kpis{grid-template-columns:repeat(2,1fr)}#map{height:430px}}
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="wrap"><h1>লাইভ জরিপ অ্যানালিটিক্স</h1><p>Google Sheet-এ নতুন response জমা হলে এই dashboard স্বয়ংক্রিয়ভাবে refresh হয়ে summary, chart এবং location map আপডেট করবে।</p></div></header>
+  <main class="wrap">
+    <div class="toolbar"><div id="status" class="status">ডাটা লোড হচ্ছে…</div><button id="refreshBtn" type="button">↻ এখনই রিফ্রেশ</button></div>
+    <div id="errorBox" class="loading" style="display:none"></div>
+    <section class="kpis">
+      <div class="card kpi"><div class="label">মোট উত্তর</div><div class="value" id="kTotal">—</div></div>
+      <div class="card kpi"><div class="label">আজকের উত্তর</div><div class="value" id="kToday">—</div></div>
+      <div class="card kpi"><div class="label">ম্যাপ লোকেশন</div><div class="value" id="kLocations">—</div></div>
+      <div class="card kpi"><div class="label">লোকাল গড় খরচ</div><div class="value" id="kLocal">—</div></div>
+      <div class="card kpi"><div class="label">১–৩ কিমি গড়</div><div class="value" id="kOneThree">—</div></div>
+      <div class="card kpi"><div class="label">৩–৫ কিমি গড়</div><div class="value" id="kThreeFive">—</div></div>
+    </section>
+
+    <section class="grid">
+      <div class="card chart-card wide"><h2>প্রতিদিন জমা পড়া response</h2><div class="chart-wrap"><canvas id="dailyChart"></canvas></div></div>
+      <div class="card chart-card"><h2>লিঙ্গভিত্তিক অংশগ্রহণ</h2><div class="chart-wrap"><canvas id="genderChart"></canvas></div></div>
+      <div class="card chart-card"><h2>বয়সের গ্রুপ</h2><div class="chart-wrap"><canvas id="ageChart"></canvas></div></div>
+      <div class="card chart-card"><h2>হোম ডেলিভারির ভবিষ্যৎ ব্যবহার</h2><div class="chart-wrap"><canvas id="futureChart"></canvas></div></div>
+      <div class="card chart-card"><h2>পীরগাছা বাজার থেকে দূরত্ব</h2><div class="chart-wrap"><canvas id="distanceChart"></canvas></div></div>
+      <div class="card chart-card"><h2>সোশ্যাল/মেসেজিং প্ল্যাটফর্ম</h2><div class="chart-wrap"><canvas id="socialChart"></canvas></div></div>
+      <div class="card chart-card"><h2>প্রয়োজনীয় পণ্য/সেবা</h2><div class="chart-wrap"><canvas id="serviceChart"></canvas></div></div>
+      <div class="card chart-card"><h2>পছন্দের যোগাযোগ মাধ্যম</h2><div class="chart-wrap"><canvas id="communicationChart"></canvas></div></div>
+      <div class="card chart-card"><h2>পেমেন্ট পদ্ধতি</h2><div class="chart-wrap"><canvas id="paymentChart"></canvas></div></div>
+      <div class="card map-card wide"><h2>উত্তরদাতাদের আনুমানিক অবস্থান</h2><div id="map"></div><div class="privacy">গোপনীয়তার জন্য নাম, ফোন ও বিকাশ/নগদ নম্বর দেখানো হয় না এবং coordinates তিন decimal পর্যন্ত round করা হয়।</div></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbw_WS2SyYCU2_9pzNBlcWhTDI4dgVZawRk0sNNNFq2WnxCWHjzpMUR04AkeOxuoNd1n/exec';
+    const charts = {};
+    let map, pointLayer;
+
+    function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+    function fmt(value){return Number(value||0).toLocaleString('bn-BD')}
+    function taka(value){return value ? fmt(value)+' টাকা' : '—'}
+
+    function palette(n){const c=['#0f766e','#22c55e','#f59e0b','#3b82f6','#8b5cf6','#ef4444','#14b8a6','#84cc16','#f97316','#64748b'];return Array.from({length:n},(_,i)=>c[i%c.length])}
+    function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id]}}
+    function rows(input){return Array.isArray(input)?input:[]}
+
+    function makeChart(id,type,data,opts={}){
+      destroyChart(id);
+      const items=rows(data);
+      const labels=items.map(x=>x.label);
+      const values=items.map(x=>Number(x.value)||0);
+      const horizontal=opts.horizontal===true;
+      charts[id]=new Chart(document.getElementById(id),{
+        type,
+        data:{labels,datasets:[{label:opts.label||'উত্তর সংখ্যা',data:values,backgroundColor:type==='pie'||type==='doughnut'?palette(values.length):'#0f766e',borderColor:type==='line'?'#0f766e':undefined,borderWidth:type==='line'?3:1,tension:.3,fill:type==='line'?false:undefined}]},
+        options:{responsive:true,maintainAspectRatio:false,indexAxis:horizontal?'y':'x',plugins:{legend:{display:type==='pie'||type==='doughnut',position:'bottom'}},scales:type==='pie'||type==='doughnut'?{}:{y:horizontal?{}:{beginAtZero:true,ticks:{precision:0}},x:horizontal?{beginAtZero:true,ticks:{precision:0}}:{}}}
+      });
+    }
+
+    function initMap(){
+      map=L.map('map').setView([23.685,90.3563],7);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+      pointLayer=L.layerGroup().addTo(map);
+    }
+
+    function renderMap(points){
+      pointLayer.clearLayers();
+      const bounds=[];
+      rows(points).forEach((p,i)=>{
+        const lat=Number(p.lat),lng=Number(p.lng);if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
+        const marker=L.circleMarker([lat,lng],{radius:7,color:'#0f766e',weight:2,fillColor:'#22c55e',fillOpacity:.68});
+        const date=p.timestamp?new Date(p.timestamp).toLocaleString('bn-BD'):'';
+        marker.bindPopup(`<strong>Response location</strong><br>এলাকা: ${escapeHtml(p.area||'—')}<br>দূরত্ব: ${escapeHtml(p.distance||'—')}<br>Accuracy: ${fmt(p.accuracy)} মিটার${date?'<br>সময়: '+escapeHtml(date):''}`);
+        marker.addTo(pointLayer);bounds.push([lat,lng]);
+      });
+      if(bounds.length===1)map.setView(bounds[0],15);else if(bounds.length>1)map.fitBounds(bounds,{padding:[30,30],maxZoom:15});
+    }
+
+    function render(payload){
+      const s=payload.summary||{},c=payload.charts||{};
+      document.getElementById('kTotal').textContent=fmt(s.totalResponses);
+      document.getElementById('kToday').textContent=fmt(s.responsesToday);
+      document.getElementById('kLocations').textContent=fmt(s.validLocations);
+      document.getElementById('kLocal').textContent=taka(s.averageLocalCost);
+      document.getElementById('kOneThree').textContent=taka(s.averageOneThreeCost);
+      document.getElementById('kThreeFive').textContent=taka(s.averageThreeFiveCost);
+      makeChart('dailyChart','line',c.dailySubmissions,{label:'প্রতিদিনের response'});
+      makeChart('genderChart','doughnut',c.gender);
+      makeChart('ageChart','bar',c.age);
+      makeChart('futureChart','pie',c.futureUse);
+      makeChart('distanceChart','bar',c.distance);
+      makeChart('socialChart','bar',c.socialPlatforms,{horizontal:true});
+      makeChart('serviceChart','bar',c.usefulServices,{horizontal:true});
+      makeChart('communicationChart','bar',c.communication,{horizontal:true});
+      makeChart('paymentChart','bar',c.paymentMethod,{horizontal:true});
+      renderMap(payload.locations);
+      document.getElementById('status').textContent='সর্বশেষ আপডেট: '+new Date(payload.updatedAt||Date.now()).toLocaleString('bn-BD')+' • প্রতি ১ মিনিটে স্বয়ংক্রিয় refresh';
+      document.getElementById('errorBox').style.display='none';
+    }
+
+    function loadData(){
+      document.getElementById('status').textContent='ডাটা আপডেট হচ্ছে…';
+      const cb='psdAnalytics_'+Date.now()+'_'+Math.floor(Math.random()*100000);
+      const script=document.createElement('script');let done=false;
+      const timer=setTimeout(()=>fail('ডাটা লোড হতে সময় বেশি লাগছে। Apps Script deployment পরীক্ষা করুন।'),20000);
+      function clean(){if(done)return;done=true;clearTimeout(timer);try{delete window[cb]}catch(e){}if(script.parentNode)script.remove()}
+      function fail(msg){clean();const box=document.getElementById('errorBox');box.textContent=msg;box.style.display='block';document.getElementById('status').textContent='ডাটা লোড হয়নি'}
+      window[cb]=payload=>{clean();if(payload&&payload.ok)render(payload);else fail((payload&&payload.message)||'ডাটা পাওয়া যায়নি।')};
+      script.onerror=()=>fail('Analytics API পাওয়া যায়নি। নতুন Code.gs deploy হয়েছে কি না পরীক্ষা করুন।');
+      script.src=API_URL+'?action=analyticsData&callback='+encodeURIComponent(cb)+'&_='+Date.now();
+      document.head.appendChild(script);
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click',loadData);
+    initMap();loadData();setInterval(loadData,60000);
+  </script>
+</body>
+</html>
