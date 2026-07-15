@@ -17,8 +17,9 @@ https://script.google.com/macros/s/AKfycbw_WS2SyYCU2_9pzNBlcWhTDI4dgVZawRk0sNNNF
 ## Notes
 
 - `index.html` contains the public survey form.
-- Google Apps Script handles Google Sheet submission and duplicate phone prevention.
+- Google Apps Script handles Google Sheet submission and duplicate prevention.
 - Visible question serials should use Bangla numerals only.
 - Location first tries the current position, then a cached position from the last 10 minutes when available.
+- `device-guard.js` adds household instructions and persistent same-device detection.
 
-Updated to run the corrected location fallback workflow.
+Updated to run the household and device restriction workflow.
