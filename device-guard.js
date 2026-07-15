@@ -70,7 +70,17 @@
 
   function addConditions(){
     const intro = document.querySelector(".intro-card");
-    if(!intro || document.getElementById("surveyCommonConditions")) return;
+    if(!intro) return;
+
+    const oldSingleCondition = intro.querySelector(".notice.success");
+    if(
+      oldSingleCondition &&
+      oldSingleCondition.textContent.includes("পীরগাছা বাজার থেকে ৫ কিলোমিটারের মধ্যে")
+    ){
+      oldSingleCondition.remove();
+    }
+
+    if(document.getElementById("surveyCommonConditions")) return;
 
     const box = document.createElement("div");
     box.id = "surveyCommonConditions";
@@ -120,6 +130,7 @@
     card.scrollIntoView({behavior:"smooth",block:"center"});
   }
 
+  // Add persistent device information to every submission.
   const originalGetFormData = window.getFormData;
   if(typeof originalGetFormData === "function"){
     window.getFormData = function(){
@@ -130,6 +141,7 @@
     };
   }
 
+  // Replace the older phone-only duplicate wording with the final message.
   const originalShowMessage = window.showMessage;
   if(typeof originalShowMessage === "function"){
     window.showMessage = function(text,type){
