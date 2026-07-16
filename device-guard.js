@@ -5,6 +5,7 @@
   const STORAGE_KEY = "psdSurveyDeviceIdV1";
   const COOKIE_KEY = "psd_survey_device";
   const DUPLICATE_MESSAGE = 'দুঃখিত! আপনি ইতিপূর্বে একবার জরিপে অংশগ্রহণ করেছেন এবং আপনার পূর্বের জরিপটি সফলভাবে সম্পন্ন হয়েছে। একই পরিবারের সর্বোচ্চ একজন জরিপে অংশগ্রহণ করতে পারবে এবং একই ডিভাইস থেকে দ্বিতীয়বার অংশগ্রহণ করা যাবে না।';
+  const SUCCESS_MESSAGE_HTML = 'ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য যাচাই শেষে আগামী ২ দিনের মধ্যে আপনার বিকাশ/নগদ নম্বরে ২৫ টাকা সম্মানী পাঠানো হবে।<br><br>জরিপসংক্রান্ত কোনো প্রশ্ন থাকলে আমাদের ইমেল করুন: <a href="mailto:geoacademy001@gmail.com" style="color:#0f766e;font-weight:800;text-decoration:underline;">geoacademy001@gmail.com</a>';
 
   function readCookie(name){
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -102,6 +103,22 @@
     else intro.appendChild(box);
   }
 
+  function applySuccessMessage(){
+    const card = document.getElementById("successCard");
+    const message = document.getElementById("successMessage");
+    if(!card || !message) return;
+
+    function update(){
+      if(!card.classList.contains("hidden")){
+        message.innerHTML = SUCCESS_MESSAGE_HTML;
+      }
+    }
+
+    const observer = new MutationObserver(update);
+    observer.observe(card,{attributes:true,attributeFilter:["class"]});
+    update();
+  }
+
   function showDuplicateBlock(){
     const form = document.getElementById("surveyForm");
     if(form) form.classList.add("hidden");
@@ -191,5 +208,6 @@
   }
 
   addConditions();
+  applySuccessMessage();
   checkDevice();
 })();
