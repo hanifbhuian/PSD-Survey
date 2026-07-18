@@ -5,7 +5,7 @@
   const STORAGE_KEY = "psdSurveyDeviceIdV1";
   const COOKIE_KEY = "psd_survey_device";
   const DUPLICATE_MESSAGE = 'দুঃখিত! আপনি ইতিপূর্বে একবার জরিপে অংশগ্রহণ করেছেন এবং আপনার পূর্বের জরিপটি সফলভাবে সম্পন্ন হয়েছে। একই পরিবারের সর্বোচ্চ একজন জরিপে অংশগ্রহণ করতে পারবে এবং একই ডিভাইস থেকে দ্বিতীয়বার অংশগ্রহণ করা যাবে না।';
-  const SUCCESS_MESSAGE_HTML = 'ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য যাচাই শেষে আগামী ২ দিনের মধ্যে আপনার বিকাশ/নগদ নম্বরে ২৫ টাকা সম্মানী পাঠানো হবে।<br><br>জরিপসংক্রান্ত কোনো প্রশ্ন থাকলে আমাদের ইমেল করুন: <a href="mailto:geoacademy001@gmail.com" style="color:#0f766e;font-weight:800;text-decoration:underline;">geoacademy001@gmail.com</a>';
+  const SUCCESS_MESSAGE_HTML = 'ধন্যবাদ। আপনার উত্তর সফলভাবে জমা হয়েছে। তথ্য যাচাই শেষে আগামী ২ দিনের মধ্যে আপনার প্রদত্ত মোবাইল নম্বরে ২৫ টাকা রিচার্জ পাঠানো হবে।<br><br>জরিপসংক্রান্ত কোনো প্রশ্ন থাকলে আমাদের ইমেল করুন: <a href="mailto:geoacademy001@gmail.com" style="color:#0f766e;font-weight:800;text-decoration:underline;">geoacademy001@gmail.com</a>';
 
   function readCookie(name){
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -92,10 +92,10 @@
       "<strong>অংশগ্রহণের সংক্ষিপ্ত শর্ত:</strong>" +
       "<div style='margin-top:5px'>" +
       "• একই পরিবারের সর্বোচ্চ একজন অংশগ্রহণ করতে পারবেন।<br>" +
-      "• একই মোবাইল, বিকাশ/নগদ নম্বর বা একই ডিভাইস থেকে একবারের বেশি অংশগ্রহণ করা যাবে না।<br>" +
+      "• একই মোবাইল বা রিচার্জ নম্বর অথবা একই ডিভাইস থেকে একবারের বেশি অংশগ্রহণ করা যাবে না।<br>" +
       "• উত্তরদাতাকে পীরগাছা বাজার থেকে ৫ কিলোমিটারের মধ্যে বসবাস করতে হবে।<br>" +
       "• জরিপের সময় ডিভাইসের Location চালু করে browser permission Allow করতে হবে।<br>" +
-      "• সঠিক তথ্য দিন; যাচাই শেষে ২৫ টাকা সম্মানী পাঠানো হবে।" +
+      "• সঠিক তথ্য দিন; যাচাই শেষে ২৫ টাকা মোবাইল রিচার্জ পাঠানো হবে।" +
       "</div>";
 
     const progress = intro.querySelector(".progress");
