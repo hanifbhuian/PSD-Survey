@@ -21,6 +21,9 @@
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
     .chart-card h2,.map-card h2{font-size:18px;margin:0 0 12px}.chart-wrap{position:relative;height:330px}
     .wide{grid-column:1/-1}#map{height:520px;border-radius:16px;border:1px solid var(--line)}
+    .pin-icon{background:transparent;border:0}
+    .pin-icon .pin-shape{width:26px;height:26px;background:#0f766e;border:3px solid #ffffff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 6px 14px rgba(15,118,110,.28);position:relative}
+    .pin-icon .pin-shape::after{content:"";width:8px;height:8px;background:#bbf7d0;border-radius:50%;position:absolute;left:6px;top:6px}
     .privacy{margin-top:10px;color:var(--muted);font-size:13px}
     .loading{padding:16px;background:#fffbeb;border:1px solid #fde68a;border-radius:14px;color:#92400e}
     @media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}}
@@ -51,7 +54,7 @@
       <div class="card chart-card"><h2>প্রয়োজনীয় পণ্য/সেবা</h2><div class="chart-wrap"><canvas id="serviceChart"></canvas></div></div>
       <div class="card chart-card"><h2>পছন্দের যোগাযোগ মাধ্যম</h2><div class="chart-wrap"><canvas id="communicationChart"></canvas></div></div>
       <div class="card chart-card"><h2>পেমেন্ট পদ্ধতি</h2><div class="chart-wrap"><canvas id="paymentChart"></canvas></div></div>
-      <div class="card map-card wide"><h2>উত্তরদাতাদের আনুমানিক অবস্থান</h2><div id="map"></div><div class="privacy">গোপনীয়তার জন্য নাম, ফোন ও বিকাশ/নগদ নম্বর দেখানো হয় না এবং coordinates তিন decimal পর্যন্ত round করা হয়।</div></div>
+      <div class="card map-card wide"><h2>উত্তরদাতাদের আনুমানিক অবস্থান</h2><div id="map"></div><div class="privacy">Pin-এ click করলে উত্তরদাতার নাম দেখা যাবে। গোপনীয়তার জন্য ফোন/রিচার্জ নম্বর দেখানো হয় না এবং coordinates তিন decimal পর্যন্ত round করা হয়।</div></div>
     </section>
   </main>
 
@@ -89,14 +92,26 @@
       pointLayer=L.layerGroup().addTo(map);
     }
 
+    function makePinIcon(){
+      return L.divIcon({
+        className:'pin-icon',
+        html:'<div class="pin-shape"></div>',
+        iconSize:[26,26],
+        iconAnchor:[13,26],
+        popupAnchor:[0,-24]
+      });
+    }
+
     function renderMap(points){
       pointLayer.clearLayers();
       const bounds=[];
+      const pinIcon=makePinIcon();
       rows(points).forEach((p,i)=>{
         const lat=Number(p.lat),lng=Number(p.lng);if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
-        const marker=L.circleMarker([lat,lng],{radius:7,color:'#0f766e',weight:2,fillColor:'#22c55e',fillOpacity:.68});
+        const marker=L.marker([lat,lng],{icon:pinIcon});
         const date=p.timestamp?new Date(p.timestamp).toLocaleString('bn-BD'):'';
-        marker.bindPopup(`<strong>Response location</strong><br>এলাকা: ${escapeHtml(p.area||'—')}<br>দূরত্ব: ${escapeHtml(p.distance||'—')}<br>Accuracy: ${fmt(p.accuracy)} মিটার${date?'<br>সময়: '+escapeHtml(date):''}`);
+        const name=String(p.name||'').trim()||'নাম দেওয়া হয়নি';
+        marker.bindPopup(`<strong>উত্তরদাতার নাম:</strong> ${escapeHtml(name)}<br>এলাকা: ${escapeHtml(p.area||'—')}<br>দূরত্ব: ${escapeHtml(p.distance||'—')}<br>Accuracy: ${fmt(p.accuracy)} মিটার${date?'<br>সময়: '+escapeHtml(date):''}`);
         marker.addTo(pointLayer);bounds.push([lat,lng]);
       });
       if(bounds.length===1)map.setView(bounds[0],15);else if(bounds.length>1)map.fitBounds(bounds,{padding:[30,30],maxZoom:15});
