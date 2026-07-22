@@ -1,0 +1,52 @@
+name: Require respondent email
+
+on:
+  push:
+    paths:
+      - '.github/workflows/require-email-field.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-form:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make email mandatory
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          text = text.replace(
+              'মোবাইল ও রিচার্জ নম্বর বাধ্যতামূলক। একজন ব্যক্তি একটি মোবাইল নম্বর দিয়ে একবারই অংশ নিতে পারবেন।',
+              'মোবাইল, রিচার্জ নম্বর ও Email ID বাধ্যতামূলক। একজন ব্যক্তি একটি মোবাইল নম্বর দিয়ে একবারই অংশ নিতে পারবেন।'
+          )
+
+          old = '<div class="field"><label class="question">৫. Email ID</label><input id="email" name="email" type="email" placeholder="example@email.com"></div>'
+          new = '<div class="field"><label class="question required">৫. Email ID</label><p class="hint">যোগাযোগ ও জরিপসংক্রান্ত প্রয়োজনে একটি সচল Email ID লিখুন।</p><input id="email" name="email" type="email" autocomplete="email" placeholder="example@email.com" required></div>'
+
+          if old not in text and new not in text:
+              raise SystemExit('Email field block not found; index.html was not changed.')
+
+          text = text.replace(old, new)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit form update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Require respondent email address"
+            git push
+          fi
