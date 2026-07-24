@@ -1,0 +1,36 @@
+name: Update survey heading
+on:
+  push:
+    paths:
+      - '.github/workflows/update-survey-heading.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update heading and metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('<title>পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ</title>', '<title>পীরগাছা এলাকার বাজার ও নিত্যপ্রয়োজনীয় পণ্য সংগ্রহ বিষয়ক জরিপ</title>')
+          text = text.replace('<meta name="description" content="পীরগাছা অঞ্চলের বাজার, পণ্য সংগ্রহ ও ঘরে পণ্য পাওয়ার বাস্তবতা নিয়ে সংক্ষিপ্ত গবেষণা জরিপ।">', '<meta name="description" content="স্থানীয় মানুষের বাজার, নিত্যপ্রয়োজনীয় পণ্য সংগ্রহের অভ্যাস, অভিজ্ঞতা ও মতামত জানার জন্য এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।">')
+          text = text.replace('<meta property="og:title" content="পীরগাছা এলাকার বাজার ও পণ্য সংগ্রহ বিষয়ক জরিপ">', '<meta property="og:title" content="পীরগাছা এলাকার বাজার ও নিত্যপ্রয়োজনীয় পণ্য সংগ্রহ বিষয়ক জরিপ">')
+          text = text.replace('<meta property="og:description" content="৩–৫ মিনিটের সংক্ষিপ্ত জরিপ। বৈধ উত্তর যাচাই শেষে ২৫ টাকা মোবাইল রিচার্জ।">', '<meta property="og:description" content="স্থানীয় মানুষের বাজার, নিত্যপ্রয়োজনীয় পণ্য সংগ্রহের অভ্যাস, অভিজ্ঞতা ও মতামত জানার জন্য এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।">')
+          old = '<h1>পীরগাছা এলাকার বাজার, পণ্য সংগ্রহ ও ঘরে পণ্য পাওয়ার বাস্তবতা</h1><p>স্থানীয় মানুষের প্রয়োজন এবং সম্ভাব্য হোম-ডেলিভারি সেবা সম্পর্কে মতামত জানতে এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।</p>'
+          new = '<h1>পীরগাছা এলাকার বাজার ও নিত্যপ্রয়োজনীয় পণ্য সংগ্রহ বিষয়ক জরিপ</h1><p>স্থানীয় মানুষের বাজার, নিত্যপ্রয়োজনীয় পণ্য সংগ্রহের অভ্যাস, অভিজ্ঞতা ও মতামত জানার জন্য এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।</p>'
+          if old not in text:
+              raise SystemExit('Expected heading block not found')
+          text = text.replace(old, new, 1)
+          p.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Update survey heading and subheading"
+          git push
