@@ -45,7 +45,7 @@
 <script>
 const SURVEY_API_URL="https://script.google.com/macros/s/AKfycbw_WS2SyYCU2_9pzNBlcWhTDI4dgVZawRk0sNNNFq2WnxCWHjzpMUR04AkeOxuoNd1n/exec";
 const form=document.getElementById("surveyForm"),messageBox=document.getElementById("messageBox"),progressBar=document.getElementById("progressBar"),submitBtn=document.getElementById("submitBtn"),successCard=document.getElementById("successCard");
-function toEnglishDigits(v){const bn="০১২৩৪৫৬৭৮৯",ar="٠١٢٣٤٥٦٧٨٩",fa="۰۱۲۳۴۵۶۷۸۹";return String(v||"").replace(/[০-৯٠-٩۰-۹]/g,d=>{let i=bn.indexOf(d);if(i>-1)return String(i);i=ar.indexOf(d);if(i>-1)return String(i);i=fa.indexOf(d);return i>-1?String(i):d})}
+function toEnglishDigits(v){const bn="০১২৩৪৫৬৭৮৯",ar="০১২৩৪৫৬৭৮৯",fa="০১২৩৪৫৬৭৮৯";return String(v||"").replace(/[০-৯০-৯০-৯]/g,d=>{let i=bn.indexOf(d);if(i>-1)return String(i);i=ar.indexOf(d);if(i>-1)return String(i);i=fa.indexOf(d);return i>-1?String(i):d})}
 function digitsOnly(el,max){if(el)el.value=toEnglishDigits(el.value).replace(/\D/g,"").slice(0,max)}
 ["phone","bkash"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",()=>digitsOnly(el,11))});
 function fieldOf(el){return el&&el.closest?el.closest(".field"):null}function markInvalid(el){const f=fieldOf(el);if(f)f.classList.add("is-invalid")}function clearInvalid(){form.querySelectorAll(".field.is-invalid").forEach(f=>f.classList.remove("is-invalid"))}function showMessage(text,type="error"){messageBox.textContent=text;messageBox.className="notice "+type;messageBox.scrollIntoView({behavior:"smooth",block:"center"})}function hideMessage(){messageBox.className="notice hidden";messageBox.textContent=""}
