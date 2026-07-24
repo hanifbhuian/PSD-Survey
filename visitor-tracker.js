@@ -41,6 +41,31 @@
   const id = visitorId();
   const ua = String(navigator.userAgent||"");
 
+  function makeEmailOptional(){
+    const email=document.querySelector('input[name="email"]');
+    if(!email)return;
+
+    email.removeAttribute("required");
+    const field=email.closest(".field");
+    if(field){
+      const label=field.querySelector("label.question");
+      if(label){
+        label.classList.remove("required");
+        label.textContent="৫. Email ID (ঐচ্ছিক)";
+      }
+      const hint=field.querySelector(".hint");
+      if(hint)hint.textContent="Email ব্যবহার করলে লিখতে পারেন; না থাকলে ঘরটি ফাঁকা রাখুন।";
+    }
+
+    const section=email.closest(".section");
+    if(section){
+      const sectionHint=section.querySelector(".section-head .hint");
+      if(sectionHint){
+        sectionHint.textContent="মোবাইল ও রিচার্জ নম্বর বাধ্যতামূলক; Email ID ঐচ্ছিক। একজন ব্যক্তি একটি মোবাইল নম্বর দিয়ে একবারই অংশ নিতে পারবেন।";
+      }
+    }
+  }
+
   function browserName(){
     if(/FBAN|FBAV|FB_IAB/i.test(ua)) return "Facebook in-app";
     if(/Messenger/i.test(ua)) return "Messenger in-app";
@@ -144,6 +169,7 @@
     check();
   }
 
+  makeEmailOptional();
   send("visit",{});
   watchSubmission();
   setInterval(sendLocationIfAvailable,1500);
