@@ -1,4 +1,4 @@
-name: Update survey heading
+name: Revise survey phone and eligibility
 on:
   push:
     paths:
@@ -10,31 +10,120 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update heading and metadata
+      - name: Apply survey revisions
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
+
+          def replace_once(text, old, new, label):
+              if old not in text:
+                  raise SystemExit(f'Expected text not found: {label}')
+              return text.replace(old, new, 1)
+
           p = Path('index.html')
           text = p.read_text(encoding='utf-8')
-          text = re.sub(r'<title>.*?</title>', '<title>পীরগাছা এলাকার বাজার ও নিত্যপ্রয়োজনীয় পণ্য সংগ্রহ বিষয়ক জরিপ</title>', text, count=1)
-          text = re.sub(r'<meta name="description" content=".*?">', '<meta name="description" content="স্থানীয় মানুষের বাজার, নিত্যপ্রয়োজনীয় পণ্য সংগ্রহের অভ্যাস, অভিজ্ঞতা ও মতামত জানার জন্য এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।">', text, count=1)
-          text = re.sub(r'<meta property="og:title" content=".*?">', '<meta property="og:title" content="পীরগাছা এলাকার বাজার ও নিত্যপ্রয়োজনীয় পণ্য সংগ্রহ বিষয়ক জরিপ">', text, count=1)
-          text = re.sub(r'<meta property="og:description" content=".*?">', '<meta property="og:description" content="স্থানীয় মানুষের বাজার, নিত্যপ্রয়োজনীয় পণ্য সংগ্রহের অভ্যাস, অভিজ্ঞতা ও মতামত জানার জন্য এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।">', text, count=1)
-          text = re.sub(
-              r'(<header class="hero"><div class="wrap"><span class="badge">.*?</span>)<h1>.*?</h1><p>.*?</p>',
-              r'\1<h1>পীরগাছা এলাকার বাজার ও নিত্যপ্রয়োজনীয় পণ্য সংগ্রহ বিষয়ক জরিপ</h1><p>স্থানীয় মানুষের বাজার, নিত্যপ্রয়োজনীয় পণ্য সংগ্রহের অভ্যাস, অভিজ্ঞতা ও মতামত জানার জন্য এই সংক্ষিপ্ত জরিপ পরিচালিত হচ্ছে।</p>',
+
+          text = replace_once(
               text,
-              count=1,
-              flags=re.S,
+              '<p class="meta">১৫টি আবশ্যিক ও ৩টি ঐচ্ছিক/সহজ প্রশ্ন।</p>',
+              '',
+              'question-count sentence',
+          )
+          text = replace_once(
+              text,
+              '<div class="mini"><strong>যোগ্যতা</strong>পীরগাছা বাজার থেকে ৫ কিমির মধ্যে</div>',
+              '<div class="mini"><strong>যোগ্যতা</strong>পীরগাছা বাজার থেকে ৫ কিমির মধ্যে<br>একই পরিবারের সর্বোচ্চ ১ জন অংশ নিতে পারবেন</div>',
+              'eligibility box',
+          )
+          text = replace_once(
+              text,
+              '<div class="mini"><strong>সম্মানী</strong>বৈধ উত্তর যাচাই শেষে ২৫ টাকা রিচার্জ</div>',
+              '<div class="mini"><strong>সম্মানী</strong>২৫ টাকা মোবাইল রিচার্জ</div>',
+              'reward box',
+          )
+          text = replace_once(
+              text,
+              '<p class="hint">মোবাইল ও রিচার্জ নম্বর বাধ্যতামূলক; Email এবং লিঙ্গ ঐচ্ছিক।</p>',
+              '<p class="hint">রিচার্জ গ্রহণের জন্য একটি মোবাইল নম্বর বাধ্যতামূলক; Email এবং লিঙ্গ ঐচ্ছিক।</p>',
+              'section hint',
+          )
+
+          old_contact = '''<div class="grid"><div class="field"><label class="question required">২. আপনার মোবাইল নম্বর</label><input name="phone" id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="017XXXXXXXX" pattern="^01[3-9][0-9]{8}$" required><div id="phoneStatus" class="small"></div></div><div class="field"><label class="question required">৩. মোবাইল রিচার্জের নম্বর</label><input name="bkash" id="bkash" type="tel" inputmode="numeric" maxlength="11" placeholder="017XXXXXXXX" pattern="^01[3-9][0-9]{8}$" required></div></div>
+<div class="grid"><div class="field"><label class="question required">৪. বয়সের গ্রুপ</label><select name="age" required><option value="">নির্বাচন করুন</option><option>১৫–২০</option><option>২১–৩০</option><option>৩১–৪০</option><option>৪১–৫০</option><option>৫১–৬০</option><option>৬০+</option></select></div><div class="field"><label class="question required">৫. পীরগাছা বাজার থেকে আপনার দূরত্ব</label><select name="distance" required><option value="">নির্বাচন করুন</option><option>১ কিমির মধ্যে</option><option>১–৩ কিমি</option><option>৩–৫ কিমি</option><option>৫ কিমির বেশি</option></select></div></div>
+<div class="field"><label class="question required">৬. বর্তমান লোকেশন শেয়ার করুন</label>'''
+          new_contact = '''<div class="grid"><div class="field"><label class="question required">২. মোবাইল নম্বর (রিচার্জের জন্য)</label><p class="hint">বৈধ উত্তর জমা হলে ২৫ টাকা মোবাইল রিচার্জ এই নম্বরে পাঠানো হবে।</p><input name="phone" id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="017XXXXXXXX" pattern="^01[3-9][0-9]{8}$" required><div id="phoneStatus" class="small"></div></div><div class="field"><label class="question required">৩. বয়সের গ্রুপ</label><select name="age" required><option value="">নির্বাচন করুন</option><option>১৫–২০</option><option>২১–৩০</option><option>৩১–৪০</option><option>৪১–৫০</option><option>৫১–৬০</option><option>৬০+</option></select></div></div>
+<div class="field"><label class="question required">৪. বর্তমান লোকেশন শেয়ার করুন</label>'''
+          text = replace_once(text, old_contact, new_contact, 'merged phone and removed distance')
+
+          renumbers = {
+              '৭. সাধারণত কোথা থেকে নিত্যপ্রয়োজনীয় পণ্য কেনেন?': '৫. সাধারণত কোথা থেকে নিত্যপ্রয়োজনীয় পণ্য কেনেন?',
+              '৮. বাজার করতে সাধারণত কত সময় লাগে?': '৬. বাজার করতে সাধারণত কত সময় লাগে?',
+              '৯. বাজার থেকে পণ্য সংগ্রহের প্রধান সমস্যাগুলো কী?': '৭. বাজার থেকে পণ্য সংগ্রহের প্রধান সমস্যাগুলো কী?',
+              '১০. ঘরে পণ্য পৌঁছে দেওয়ার সেবা আপনার জন্য কতটা উপকারী হবে?': '৮. ঘরে পণ্য পৌঁছে দেওয়ার সেবা আপনার জন্য কতটা উপকারী হবে?',
+              '১১. কোন ধরনের পণ্য/সেবা সবচেয়ে বেশি প্রয়োজন হবে?': '৯. কোন ধরনের পণ্য/সেবা সবচেয়ে বেশি প্রয়োজন হবে?',
+              '১২. অর্ডার দেওয়ার সবচেয়ে সহজ মাধ্যম': '১০. অর্ডার দেওয়ার সবচেয়ে সহজ মাধ্যম',
+              '১৩. পছন্দের পেমেন্ট পদ্ধতি': '১১. পছন্দের পেমেন্ট পদ্ধতি',
+              '১৪. ১–৩ কিমির মধ্যে যুক্তিসংগত ডেলিভারি চার্জ': '১২. ১–৩ কিমির মধ্যে যুক্তিসংগত ডেলিভারি চার্জ',
+              '১৫. কোন বিষয়গুলো নিশ্চিত হলে আপনি এই সেবা ব্যবহার করবেন?': '১৩. কোন বিষয়গুলো নিশ্চিত হলে আপনি এই সেবা ব্যবহার করবেন?',
+              '১৬. Email ID (ঐচ্ছিক)': '১৪. Email ID (ঐচ্ছিক)',
+              '১৭. লিঙ্গ (ঐচ্ছিক)': '১৫. লিঙ্গ (ঐচ্ছিক)',
+              '১৮. অতিরিক্ত পরামর্শ (ঐচ্ছিক)': '১৬. অতিরিক্ত পরামর্শ (ঐচ্ছিক)',
+          }
+          for old, new in renumbers.items():
+              text = replace_once(text, old, new, old)
+
+          text = replace_once(
+              text,
+              '["phone","bkash"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",()=>digitsOnly(el,11))});',
+              '["phone"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",()=>digitsOnly(el,11))});',
+              'phone input normalization',
+          )
+          text = replace_once(
+              text,
+              '["phone","bkash"].forEach(id=>digitsOnly(document.getElementById(id),11));',
+              '["phone"].forEach(id=>digitsOnly(document.getElementById(id),11));',
+              'phone validation normalization',
+          )
+          text = replace_once(
+              text,
+              'if(form.elements.distance.value==="৫ কিমির বেশি"){showMessage("এই জরিপে অংশ নিতে পীরগাছা বাজার থেকে ৫ কিলোমিটারের মধ্যে বসবাস করতে হবে।");return false}',
+              '',
+              'distance validation',
+          )
+          text = replace_once(text, 'validateGroup("marketProblems","৯ নম্বর")', 'validateGroup("marketProblems","৭ নম্বর")', 'market problem number')
+          text = replace_once(text, 'validateGroup("usefulServices","১১ নম্বর")', 'validateGroup("usefulServices","৯ নম্বর")', 'service number')
+          text = replace_once(text, 'validateGroup("trustFactors","১৫ নম্বর")', 'validateGroup("trustFactors","১৩ নম্বর")', 'trust number')
+          text = replace_once(
+              text,
+              'data.clientInfo=navigator.userAgent;data.sourceUrl=location.href;data.submittedFrom="GitHub Pages short survey v24";',
+              'data.bkash=data.phone||"";data.distance="";data.clientInfo=navigator.userAgent;data.sourceUrl=location.href;data.submittedFrom="GitHub Pages revised survey v25";',
+              'form data compatibility',
+          )
+          text = replace_once(
+              text,
+              '<script src="device-guard.js?v=5"></script><script src="visitor-tracker.js?v=4"></script>',
+              '<script src="device-guard.js?v=6"></script><script src="visitor-tracker.js?v=4"></script>',
+              'device guard cache version',
           )
           p.write_text(text, encoding='utf-8')
+
+          guard_path = Path('device-guard.js')
+          guard = guard_path.read_text(encoding='utf-8')
+          guard = guard.replace(
+              'তথ্য যাচাই শেষে আগামী ২ দিনের মধ্যে আপনার প্রদত্ত মোবাইল নম্বরে ২৫ টাকা রিচার্জ পাঠানো হবে।',
+              'তথ্য যাচাই শেষে আগামী ২ দিনের মধ্যে আপনার প্রদত্ত মোবাইল নম্বরে ২৫ টাকা মোবাইল রিচার্জ পাঠানো হবে।',
+          )
+          guard = guard.replace(
+              'একই মোবাইল বা রিচার্জ নম্বর অথবা একই ডিভাইস থেকে একবারের বেশি অংশগ্রহণ করা যাবে না।',
+              'একই মোবাইল নম্বর অথবা একই ডিভাইস থেকে একবারের বেশি অংশগ্রহণ করা যাবে না।',
+          )
+          guard_path.write_text(guard, encoding='utf-8')
           PY
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html device-guard.js
           git diff --cached --quiet && exit 0
-          git commit -m "Update survey heading and subheading"
+          git commit -m "Merge recharge phone and remove distance question"
           git push
